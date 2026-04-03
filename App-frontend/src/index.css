@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+body.dark-mode .container {
+  background-color: #111827;
+}
+
+body.dark-mode header,
+body.dark-mode .header,
+body.dark-mode nav {
+  background-color: #1f2937 !important;
+  border-bottom-color: #374151;
+}
+
+body.dark-mode .bg-white,
+body.dark-mode .card,
+body.dark-mode .featureCard,
+body.dark-mode .statCard,
+body.dark-mode .dishCard,
+body.dark-mode .testimonialCard,
+body.dark-mode .stepCard,
+body.dark-mode [style*="background-color: white"] {
+  background-color: #1f2937 !important;
+  color: #f9fafb;
+}
+
+body.dark-mode .text-gray-600,
+body.dark-mode .text-gray-500,
+body.dark-mode .text-gray-700,
+body.dark-mode p:not(.text-white),
+body.dark-mode span:not(.text-white) {
+  color: #9ca3af;
+}
+
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4 {
+  color: #f9fafb;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #f9fafb;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #9ca3af;
+}
+
+body.dark-mode .border,
+body.dark-mode .border-t,
+body.dark-mode .border-b {
+  border-color: #374151;
+}
+
+body.dark-mode .shadow-md,
+body.dark-mode .shadow-lg,
+body.dark-mode .shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .footer {
+  background-color: #0f172a !important;
+}
+
+body.dark-mode .dropdown {
+  background-color: #1f2937;
+  border: 1px solid #374151;
+}
+
+body.dark-mode .dropdown a:hover,
+body.dark-mode .dropdown button:hover {
+  background-color: #374151;
+}
+
+body.dark-mode .heroCarousel .slide {
+  background-color: #1f2937 !important;
+}
+
+body.dark-mode .howItWorks {
+  background: linear-gradient(135deg, #1f2937, #111827);
+}
+
+body.dark-mode .stepCard {
+  background-color: #1f2937;
+  border: 1px solid #374151;
+}
+
+body.dark-mode .downloadSection {
+  background: linear-gradient(135deg, #0f172a, #020617);
+}

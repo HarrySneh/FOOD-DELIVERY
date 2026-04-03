@@ -1,0 +1,144 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: #6b7280;
+  font-size: 1.125rem;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faqItem {
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.faqQuestion {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: white;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.faqQuestion:hover {
+  background-color: #f9fafb;
+}
+
+.faqAnswer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.faqAnswer p {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.contactCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  text-align: center;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+}
+
+.contactCard h3 {
+  font-size: 1.25rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.contactCard p {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.contactButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.emailButton,
+.phoneButton {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.emailButton {
+  background-color: #dc2626;
+  color: white;
+}
+
+.emailButton:hover {
+  background-color: #b91c1c;
+}
+
+.phoneButton {
+  background-color: #10b981;
+  color: white;
+}
+
+.phoneButton:hover {
+  background-color: #059669;
+}
+
+.chatInfo p {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+  .faqGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .contactCard {
+    position: static;
+  }
+}
