@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import Home from "./pages/Home";
 import Restaurants from "./pages/Restaurants";
+import Groceries from "./pages/Groceries";
 import RestaurantDetail from "./pages/RestaurantDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -14,15 +15,15 @@ import DriverRegister from "./pages/DriverRegister";
 import OwnerDashboard from "./pages/Dashboard/OwnerDashboard";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import DriverDashboard from "./pages/Dashboard/DriverDashboard";
-import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { useAuth } from "./hooks/useAuth";
-import Loader from "./components/Loader";
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import TermsOfUse from "./pages/TermsOfUse";
 import FAQ from "./pages/FAQ";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useAuth } from "./hooks/useAuth";
+import Loader from "./components/Loader";
 
 function App() {
   const { user, loading } = useAuth();
@@ -37,6 +38,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="restaurants" element={<Restaurants />} />
+          <Route path="groceries" element={<Groceries />} />
           <Route path="restaurant/:id" element={<RestaurantDetail />} />
           <Route path="cart" element={<Cart />} />
           <Route
@@ -111,12 +113,12 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<NotFound />} />
           <Route path="about" element={<About />} />
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="return-policy" element={<ReturnPolicy />} />
           <Route path="terms-of-use" element={<TermsOfUse />} />
           <Route path="faq" element={<FAQ />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

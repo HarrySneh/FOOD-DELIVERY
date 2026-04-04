@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { FaFacebook, FaTwitter, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+  FaWhatsapp,
+  FaStore,
+  FaUtensils,
+} from "react-icons/fa";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -9,13 +16,15 @@ export default function Footer() {
         <div className={styles.footerContent}>
           <div className={styles.footerSection}>
             <h3 className={styles.footerTitle}>TamaEat</h3>
-            <p>Delivering happiness across Ghana</p>
+            <p>Taste the Best, Eat with Ease</p>
+            <p style={{ marginTop: "0.5rem", fontSize: "0.875rem" }}>
+              Delivering food and groceries across Ghana
+            </p>
             <div className={styles.socialLinks}>
               <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Facebook"
               >
                 <FaFacebook />
               </a>
@@ -23,7 +32,6 @@ export default function Footer() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Twitter"
               >
                 <FaTwitter />
               </a>
@@ -31,7 +39,6 @@ export default function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram"
               >
                 <FaInstagram />
               </a>
@@ -39,7 +46,6 @@ export default function Footer() {
                 href="https://wa.me/233123456789"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="WhatsApp"
               >
                 <FaWhatsapp />
               </a>
@@ -52,17 +58,33 @@ export default function Footer() {
               <li>
                 <Link to="/about">About Us</Link>
               </li>
-              <Link to="/about" className={styles.navLink}>
-                About
-              </Link>
               <li>
                 <Link to="/restaurants">Restaurants</Link>
               </li>
               <li>
-                <Link to="/faq">FAQ</Link>
+                <Link to="/groceries">Groceries</Link>
               </li>
               <li>
-                <Link to="/contact">Contact</Link>
+                <Link to="/faq">FAQ</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className={styles.footerSection}>
+            <h3 className={styles.footerTitle}>Services</h3>
+            <ul className={styles.footerLinks}>
+              <li>
+                <Link to="/restaurants">
+                  <FaUtensils style={{ marginRight: "0.5rem" }} /> Food Delivery
+                </Link>
+              </li>
+              <li>
+                <Link to="/groceries">
+                  <FaStore style={{ marginRight: "0.5rem" }} /> Grocery Delivery
+                </Link>
+              </li>
+              <li>
+                <Link to="/driver-register">Become a Driver</Link>
               </li>
             </ul>
           </div>
@@ -83,20 +105,19 @@ export default function Footer() {
           </div>
 
           <div className={styles.footerSection}>
-            <h3 className={styles.footerTitle}>Contact Us</h3>
+            <h3 className={styles.footerTitle}>Contact</h3>
             <ul className={styles.footerContact}>
-              <li>Email: support@foodiegh.com</li>
-              <li>Phone: +233 123 456 789</li>
-              <li>Address: Accra, Ghana</li>
+              <li>📧 support@tamaeat.com</li>
+              <li>📞 +233 123 456 789</li>
+              <li>📍 Accra, Ghana</li>
+              <li>⏰ Mon-Sun: 8am - 10pm</li>
             </ul>
           </div>
         </div>
 
         <div className={styles.footerBottom}>
-          <p>
-            &copy; {new Date().getFullYear()} TamaEat. All rights reserved.
-          </p>
-          <p className={styles.tagline}>Delivering happiness across Ghana</p>
+          <p>&copy; {new Date().getFullYear()} TamaEat. All rights reserved.</p>
+          <p className={styles.tagline}>Taste the Best, Eat with Ease</p>
         </div>
       </div>
     </footer>

@@ -1,14 +1,16 @@
 .card {
-  background-color: white;
+  background-color: var(--white);
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s;
+  transition: all 0.3s;
   display: block;
+  border: 1px solid var(--border);
 }
 
 .card:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .image {
@@ -25,6 +27,7 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
+  color: var(--dark);
 }
 
 .info {
@@ -33,6 +36,7 @@
   gap: 0.5rem;
   margin-top: 0.25rem;
   font-size: 0.875rem;
+  color: var(--gray);
 }
 
 .rating {
@@ -42,17 +46,18 @@
 }
 
 .star {
-  color: #eab308;
+  color: #fbbf24;
 }
 
 .cuisine {
-  color: #6b7280;
+  color: var(--gray);
   font-size: 0.875rem;
   margin-top: 0.5rem;
 }
 
 .deliveryFee {
-  color: #9ca3af;
+  color: var(--primary);
   font-size: 0.75rem;
   margin-top: 0.25rem;
+  font-weight: 600;
 }

@@ -1,4 +1,5 @@
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
+import { authApi } from "../api/auth";
 import { toast } from "react-toastify";
 
 interface User {
@@ -31,35 +32,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const mockUser = { name: email.split("@")[0], email, role: "customer" };
-      setUser(mockUser);
-      localStorage.setItem("user", JSON.stringify(mockUser));
+      const { data } = await authApi.login({ email, password });
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       toast.success("Logged in successfully!");
-    } catch (error) {
-      toast.error("Login failed");
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Login failed");
       throw error;
     } finally {
       setLoading(false);
     }
   };
 
-  const register = async (data: any) => {
+  const register = async (userData: any) => {
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const mockUser = {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        role: "customer",
-      };
-      setUser(mockUser);
-      localStorage.setItem("user", JSON.stringify(mockUser));
+      const { data } = await authApi.register(userData);
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       toast.success("Registration successful!");
-    } catch (error) {
-      toast.error("Registration failed");
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Registration failed");
       throw error;
     } finally {
       setLoading(false);
@@ -67,9 +62,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    toast.success("Logged out");
+    try {
+      await authApi.logout();
+    } catch (error) {
+      console.error("Logout error", error);
+    } finally {
+      setUser(null);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      toast.success("Logged out");
+    }
   };
 
   return (

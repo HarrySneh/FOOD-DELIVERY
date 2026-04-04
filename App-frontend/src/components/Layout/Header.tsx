@@ -8,11 +8,12 @@ import {
   FaWhatsapp,
   FaMoon,
   FaSun,
+  FaStore,
+  FaUtensils,
 } from "react-icons/fa";
 import { useState, useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import styles from "./Header.module.css";
-import TamaEat from "../../assets/images/TamaEat.png";
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -29,7 +30,7 @@ export default function Header() {
 
   const openWhatsApp = () => {
     window.open(
-      "https://wa.me/233123456789?text=Hello%20FoodieGH%2C%20I%20need%20help%20with%20my%20order",
+      "https://wa.me/233123456789?text=Hello%20TamaEat%2C%20I%20need%20help%20with%20my%20order",
       "_blank",
     );
   };
@@ -38,7 +39,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo}>
-          {/* <img src={TamaEat} alt="TamaEat" className={styles.logoImage} /> */}
+          Tama<span>Eat</span>
         </Link>
 
         <div className={styles.navLinks}>
@@ -46,7 +47,10 @@ export default function Header() {
             Home
           </Link>
           <Link to="/restaurants" className={styles.navLink}>
-            Restaurants
+            <FaUtensils className={styles.navIcon} /> Restaurants
+          </Link>
+          <Link to="/groceries" className={styles.navLink}>
+            <FaStore className={styles.navIcon} /> Groceries
           </Link>
           <Link to="/about" className={styles.navLink}>
             About

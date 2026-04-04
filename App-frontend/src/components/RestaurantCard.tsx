@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Restaurant} from "../types/index";
+import { Restaurant } from "../types";
 import { FaStar } from "react-icons/fa";
 import styles from "./RestaurantCard.module.css";
 
