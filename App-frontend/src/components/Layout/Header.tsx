@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import { useState, useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
+import TamaEat from "../../assets/images/logo/logo.svg";
 import styles from "./Header.module.css";
 
 export default function Header() {
@@ -39,7 +40,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo}>
-          Tama<span>Eat</span>
+          <img src={TamaEat} alt="TamaEat" className={styles.logoImage} />
         </Link>
 
         <div className={styles.navLinks}>

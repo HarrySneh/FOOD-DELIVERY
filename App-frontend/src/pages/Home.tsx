@@ -14,22 +14,12 @@ import {
   FaStore,
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import {
+  HERO_IMAGES,
+  DISH_IMAGES,
+  ICON_IMAGES,
+} from "../assets/images/imageConstants";
 import styles from "./Home.module.css";
-
-const heroImages = [
-  "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1200&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=1200&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=1200&h=400&fit=crop",
-];
-
-const dishImages = [
-  "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=150&h=150&fit=crop",
-  "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=150&h=150&fit=crop",
-  "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=150&h=150&fit=crop",
-  "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=150&h=150&fit=crop",
-  "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=150&h=150&fit=crop",
-  "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=150&h=150&fit=crop",
-];
 
 export default function Home() {
   const { user } = useAuth();
@@ -39,18 +29,19 @@ export default function Home() {
   const slides = [
     {
       title: "Delicious Food & Fresh Groceries",
-      subtitle: "Order from the best restaurants and shops in Ghana",
-      image: heroImages[0],
+      subtitle:
+        "Now delivering to Tamale! Order from the best restaurants and shops",
+      image: HERO_IMAGES[0],
     },
     {
       title: "Support Local Businesses",
       subtitle: "Discover authentic Ghanaian cuisine and fresh produce",
-      image: heroImages[1],
+      image: HERO_IMAGES[1],
     },
     {
       title: "Special Discounts Every Day",
       subtitle: "Save up to 30% on your first order",
-      image: heroImages[2],
+      image: HERO_IMAGES[2],
     },
   ];
 
@@ -92,7 +83,7 @@ export default function Home() {
     {
       name: "Jollof Rice",
       price: "GHS 25",
-      image: dishImages[0],
+      image: DISH_IMAGES.jollofRice,
       orders: 1234,
       rating: 4.8,
       type: "food",
@@ -100,7 +91,7 @@ export default function Home() {
     {
       name: "Banku & Tilapia",
       price: "GHS 35",
-      image: dishImages[1],
+      image: DISH_IMAGES.bankuTilapia,
       orders: 892,
       rating: 4.9,
       type: "food",
@@ -108,31 +99,31 @@ export default function Home() {
     {
       name: "Waakye",
       price: "GHS 20",
-      image: dishImages[2],
+      image: DISH_IMAGES.waakye,
       orders: 756,
       rating: 4.7,
       type: "food",
     },
     {
+      name: "Tuo Zaafi",
+      price: "GHS 25",
+      image: DISH_IMAGES.tuoZaafi,
+      orders: 654,
+      rating: 4.8,
+      type: "food",
+    },
+    {
       name: "Fresh Vegetables",
       price: "GHS 15",
-      image: dishImages[3],
-      orders: 654,
+      image: DISH_IMAGES.freshVegetables,
+      orders: 543,
       rating: 4.8,
       type: "grocery",
     },
     {
       name: "Rice (5kg)",
       price: "GHS 30",
-      image: dishImages[4],
-      orders: 543,
-      rating: 4.9,
-      type: "grocery",
-    },
-    {
-      name: "Cooking Oil",
-      price: "GHS 22",
-      image: dishImages[5],
+      image: DISH_IMAGES.riceBag,
       orders: 432,
       rating: 4.6,
       type: "grocery",
@@ -142,7 +133,7 @@ export default function Home() {
   const testimonials = [
     {
       name: "Akua Mensah",
-      location: "Accra",
+      location: "Tamale",
       rating: 5,
       text: "Best delivery service in Ghana! The food arrived hot and on time. Love TamaEat!",
       avatar: "https://randomuser.me/api/portraits/women/1.jpg",
@@ -150,7 +141,7 @@ export default function Home() {
     },
     {
       name: "Kwame Asante",
-      location: "Kumasi",
+      location: "Tamale",
       rating: 5,
       text: "Love the variety. Being able to order both food and groceries from one app is amazing!",
       avatar: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -158,7 +149,7 @@ export default function Home() {
     },
     {
       name: "Esi Boateng",
-      location: "Tema",
+      location: "Tamale",
       rating: 4,
       text: "Great service, quick delivery. The grocery section is a game changer!",
       avatar: "https://randomuser.me/api/portraits/women/2.jpg",
@@ -265,6 +256,26 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Tamale Special Section */}
+      <div className={styles.tamaleSection}>
+        <div className={styles.tamaleContent}>
+          <h2>🇬🇭 Now Serving Tamale!</h2>
+          <p>
+            Discover authentic Northern Ghanaian cuisine delivered to your
+            doorstep
+          </p>
+          <div className={styles.tamaleFeatures}>
+            <span>🍲 Tuo Zaafi</span>
+            <span>🍚 Wasawasa</span>
+            <span>🥩 Kinkheba</span>
+            <span>🌶️ Ayoyo Soup</span>
+          </div>
+          <Link to="/restaurants" className={styles.tamaleButton}>
+            Explore Tamale Restaurants →
+          </Link>
+        </div>
+      </div>
+
       <div className={styles.categorySection}>
         <h2>What would you like today?</h2>
         <p className={styles.sectionSubtitle}>Choose from food or groceries</p>
@@ -328,7 +339,7 @@ export default function Home() {
           <div className={styles.stepCard}>
             <div className={styles.stepNumber}>1</div>
             <img
-              src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png"
+              src={ICON_IMAGES.step1}
               alt="Choose"
               className={styles.stepIconImage}
             />
@@ -338,7 +349,7 @@ export default function Home() {
           <div className={styles.stepCard}>
             <div className={styles.stepNumber}>2</div>
             <img
-              src="https://cdn-icons-png.flaticon.com/512/1046/1046856.png"
+              src={ICON_IMAGES.step2}
               alt="Select"
               className={styles.stepIconImage}
             />
@@ -348,7 +359,7 @@ export default function Home() {
           <div className={styles.stepCard}>
             <div className={styles.stepNumber}>3</div>
             <img
-              src="https://cdn-icons-png.flaticon.com/512/2975/2975171.png"
+              src={ICON_IMAGES.step3}
               alt="Deliver"
               className={styles.stepIconImage}
             />
@@ -427,16 +438,26 @@ export default function Home() {
             </p>
             <div className={styles.appButtons}>
               <button className={styles.appStoreButton}>
-                <span>📱</span> App Store
+                <img
+                  src={ICON_IMAGES.appStore}
+                  alt="App Store"
+                  className={styles.appIcon}
+                />
+                App Store
               </button>
               <button className={styles.playStoreButton}>
-                <span>▶️</span> Google Play
+                <img
+                  src={ICON_IMAGES.playStore}
+                  alt="Google Play"
+                  className={styles.appIcon}
+                />
+                Google Play
               </button>
             </div>
           </div>
           <div className={styles.downloadImage}>
             <img
-              src="https://cdn-icons-png.flaticon.com/512/888/888879.png"
+              src={ICON_IMAGES.phoneMockup}
               alt="App"
               className={styles.appImage}
             />

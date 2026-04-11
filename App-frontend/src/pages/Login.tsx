@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { FaEnvelope, FaLock, FaArrowRight } from "react-icons/fa";
 import styles from "./Login.module.css";
 
 export default function Login() {
@@ -25,39 +26,59 @@ export default function Login() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Login</h1>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Email</label>
-          <input
-            type="email"
-            className={styles.input}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <div className={styles.card}>
+        <div className={styles.header}>
+          <h1>Welcome Back</h1>
+          <p>Login to your TamaEat account</p>
         </div>
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Password</label>
-          <input
-            type="password"
-            className={styles.input}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.inputGroup}>
+            <FaEnvelope className={styles.inputIcon} />
+            <input
+              type="email"
+              placeholder="Email address"
+              className={styles.input}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <FaLock className={styles.inputIcon} />
+            <input
+              type="password"
+              placeholder="Password"
+              className={styles.input}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className={styles.options}>
+            <label className={styles.checkbox}>
+              <input type="checkbox" /> Remember me
+            </label>
+            <Link to="/forgot-password" className={styles.forgotLink}>
+              Forgot Password?
+            </Link>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={styles.loginButton}
+          >
+            {loading ? "Logging in..." : "Login"} <FaArrowRight />
+          </button>
+        </form>
+
+        <div className={styles.registerLink}>
+          Don't have an account? <Link to="/register">Sign up</Link>
         </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className={styles.submitButton}
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
-        <p className={styles.registerLink}>
-          Don't have an account? <Link to="/register">Register</Link>
-        </p>
-      </form>
+      </div>
     </div>
   );
 }

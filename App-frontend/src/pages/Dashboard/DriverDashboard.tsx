@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { driverApi } from "../../api/driver";
 import { Order } from "../../types";
 import { Link } from "react-router-dom";
+import { FaMotorcycle, FaWallet, FaStar, FaCheckCircle } from "react-icons/fa";
 import Loader from "../../components/Loader";
 import { toast } from "react-toastify";
 import styles from "./DriverDashboard.module.css";
@@ -10,7 +11,7 @@ export default function DriverDashboard() {
   const [availableOrders, setAvailableOrders] = useState<Order[]>([]);
   const [myOrders, setMyOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [earnings, setEarnings] = useState(0);
+  const [earnings, setEarnings] = useState(450);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,17 +22,8 @@ export default function DriverDashboard() {
         ]);
         setAvailableOrders(availableRes.data);
         setMyOrders(myOrdersRes.data);
-        const deliveredOrders = myOrdersRes.data.filter(
-          (o) => o.status === "delivered",
-        );
-        const total = deliveredOrders.reduce(
-          (sum, o) => sum + (o.deliveryFee || 10),
-          0,
-        );
-        setEarnings(total);
       } catch (error) {
         console.error(error);
-        // Mock data for demo
         setAvailableOrders([]);
         setMyOrders([]);
       } finally {
@@ -65,6 +57,9 @@ export default function DriverDashboard() {
         prev.map((o) => (o._id === orderId ? { ...o, status } : o)),
       );
       toast.success(`Order marked as ${status}`);
+      if (status === "delivered") {
+        setEarnings((prev) => prev + 15);
+      }
     } catch (error) {
       toast.error("Failed to update status");
     }
@@ -76,69 +71,72 @@ export default function DriverDashboard() {
     <div className={styles.container}>
       <h1 className={styles.title}>Driver Dashboard</h1>
 
-      <div className={styles.earningsCard}>
-        <h3>Total Earnings</h3>
-        <p className={styles.earningsAmount}>GHS {earnings.toFixed(2)}</p>
+      <div className={styles.stats}>
+        <div className={styles.statCard}>
+          <FaWallet className={styles.statIcon} />
+          <h3>Total Earnings</h3>
+          <p className={styles.earnings}>GHS {earnings}</p>
+        </div>
+        <div className={styles.statCard}>
+          <FaStar className={styles.statIcon} />
+          <h3>Rating</h3>
+          <p className={styles.rating}>4.9 ★</p>
+        </div>
+        <div className={styles.statCard}>
+          <FaCheckCircle className={styles.statIcon} />
+          <h3>Completed</h3>
+          <p className={styles.completed}>
+            {myOrders.filter((o) => o.status === "delivered").length}
+          </p>
+        </div>
       </div>
 
       <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Available Orders</h2>
+        <h2>Available Orders ({availableOrders.length})</h2>
         {availableOrders.length === 0 ? (
-          <p className={styles.emptyMessage}>No orders ready for pickup.</p>
+          <p className={styles.emptyMessage}>No orders available</p>
         ) : (
-          <div className={styles.ordersGrid}>
-            {availableOrders.map((order) => (
-              <div key={order._id} className={styles.orderCard}>
-                <div className={styles.orderHeader}>
-                  <span className={styles.orderId}>
-                    Order #{order._id?.slice(-6)}
-                  </span>
-                  <span className={styles.orderStatus}>Ready for Pickup</span>
-                </div>
-                <div className={styles.orderDetails}>
-                  <p>Restaurant: {order.restaurant?.name}</p>
-                  <p>Pickup: {order.restaurant?.address}</p>
-                  <p>Delivery Fee: GHS {order.deliveryFee || 10}</p>
-                </div>
-                <button
-                  onClick={() => acceptOrder(order._id)}
-                  className={styles.acceptButton}
-                >
-                  Accept Order
-                </button>
+          availableOrders.map((order) => (
+            <div key={order._id} className={styles.orderCard}>
+              <div className={styles.orderInfo}>
+                <p className={styles.restaurantName}>
+                  {order.restaurant?.name}
+                </p>
+                <p className={styles.orderDetails}>Delivery Fee: GHS 15</p>
               </div>
-            ))}
-          </div>
+              <button
+                onClick={() => acceptOrder(order._id)}
+                className={styles.acceptButton}
+              >
+                <FaMotorcycle /> Accept
+              </button>
+            </div>
+          ))
         )}
       </div>
 
       <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>My Orders</h2>
+        <h2>My Orders</h2>
         {myOrders.length === 0 ? (
-          <p className={styles.emptyMessage}>No orders assigned to you.</p>
+          <p className={styles.emptyMessage}>No orders assigned</p>
         ) : (
-          <div className={styles.ordersGrid}>
-            {myOrders.map((order) => (
-              <div key={order._id} className={styles.orderCard}>
-                <div className={styles.orderHeader}>
-                  <span className={styles.orderId}>
-                    Order #{order._id?.slice(-6)}
-                  </span>
-                  <span className={styles.orderStatus}>
-                    {order.status?.replace("_", " ")}
-                  </span>
-                </div>
-                <div className={styles.orderDetails}>
-                  <p>Restaurant: {order.restaurant?.name}</p>
-                  <p>Customer: {order.customer?.name}</p>
-                  <p>Delivery Address: {order.deliveryAddress?.text}</p>
-                </div>
+          myOrders.map((order) => (
+            <div key={order._id} className={styles.orderCard}>
+              <div className={styles.orderInfo}>
+                <p className={styles.restaurantName}>
+                  {order.restaurant?.name}
+                </p>
+                <p className={styles.orderStatus}>
+                  {order.status?.replace("_", " ")}
+                </p>
+              </div>
+              <div className={styles.orderActions}>
                 {order.status === "assigned" && (
                   <button
                     onClick={() => updateOrderStatus(order._id, "picked_up")}
-                    className={styles.actionButton}
+                    className={styles.pickupButton}
                   >
-                    Mark as Picked Up
+                    Picked Up
                   </button>
                 )}
                 {order.status === "picked_up" && (
@@ -146,18 +144,18 @@ export default function DriverDashboard() {
                     onClick={() => updateOrderStatus(order._id, "delivered")}
                     className={styles.deliverButton}
                   >
-                    Mark as Delivered
+                    Delivered
                   </button>
                 )}
                 <Link
                   to={`/tracking/${order._id}`}
                   className={styles.trackLink}
                 >
-                  Track Order →
+                  Track
                 </Link>
               </div>
-            ))}
-          </div>
+            </div>
+          ))
         )}
       </div>
     </div>

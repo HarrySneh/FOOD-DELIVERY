@@ -325,3 +325,92 @@ h2 { font-size: 2.5rem; font-weight: 800; color: var(--dark); margin-bottom: 0.7
   .whatsappFloat span { display: none; }
   .whatsappFloat { padding: 0.875rem; border-radius: 50%; }
 }
+
+.tamaleSection {
+  background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+  border-radius: 1.5rem;
+  margin-bottom: 4rem;
+  overflow: hidden;
+}
+
+.tamaleContent {
+  padding: 3rem;
+  text-align: center;
+  color: white;
+}
+
+.tamaleContent h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.tamaleContent p {
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.tamaleFeatures {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tamaleFeatures span {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+}
+
+.tamaleButton {
+  display: inline-block;
+  background: white;
+  color: #064e3b;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.tamaleButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.appIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+}
+
+.stepIconImage {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  display: block;
+  object-fit: contain;
+}
+
+.dishImage {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.testimonialAvatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+}
+
+.appImage {
+  width: 200px;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}

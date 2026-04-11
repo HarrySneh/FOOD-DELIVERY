@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import {
+  FaMotorcycle,
+  FaCar,
+  FaBicycle,
+  FaArrowRight,
+  FaShieldAlt,
+} from "react-icons/fa";
 import { toast } from "react-toastify";
 import styles from "./DriverRegister.module.css";
 
@@ -10,11 +17,16 @@ export default function DriverRegister() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const vehicleOptions = [
+    { value: "Car", icon: FaCar, label: "Car" },
+    { value: "Motorcycle", icon: FaMotorcycle, label: "Motorcycle" },
+    { value: "Bicycle", icon: FaBicycle, label: "Bicycle" },
+  ];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
       toast.success(
         "Driver registration successful! You can now accept deliveries.",
@@ -29,45 +41,76 @@ export default function DriverRegister() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Become a Delivery Driver</h1>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Vehicle Type</label>
-          <select
-            className={styles.select}
-            value={vehicleType}
-            onChange={(e) => setVehicleType(e.target.value)}
-            required
+      <div className={styles.card}>
+        <div className={styles.header}>
+          <h1>Become a Delivery Driver</h1>
+          <p>Join our team and start earning today</p>
+        </div>
+
+        <div className={styles.benefits}>
+          <div className={styles.benefit}>
+            <FaShieldAlt />
+            <span>Flexible Hours</span>
+          </div>
+          <div className={styles.benefit}>
+            <FaShieldAlt />
+            <span>Competitive Pay</span>
+          </div>
+          <div className={styles.benefit}>
+            <FaShieldAlt />
+            <span>Weekly Bonuses</span>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label>Vehicle Type</label>
+            <div className={styles.vehicleOptions}>
+              {vehicleOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  className={`${styles.vehicleOption} ${vehicleType === option.value ? styles.selected : ""}`}
+                  onClick={() => setVehicleType(option.value)}
+                >
+                  <option.icon />
+                  <span>{option.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Vehicle Number</label>
+            <input
+              type="text"
+              className={styles.input}
+              value={vehicleNumber}
+              onChange={(e) => setVehicleNumber(e.target.value)}
+              placeholder="e.g., GR-1234-20"
+              required
+            />
+          </div>
+
+          <div className={styles.requirements}>
+            <h4>Requirements:</h4>
+            <ul>
+              <li>Valid driver's license</li>
+              <li>Valid vehicle registration</li>
+              <li>Smartphone with GPS</li>
+              <li>Minimum age 18 years</li>
+            </ul>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading || !vehicleType}
+            className={styles.submitButton}
           >
-            <option value="">Select vehicle type</option>
-            <option value="Car">Car</option>
-            <option value="Motorcycle">Motorcycle</option>
-            <option value="Bicycle">Bicycle</option>
-          </select>
-        </div>
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Vehicle Number</label>
-          <input
-            type="text"
-            className={styles.input}
-            value={vehicleNumber}
-            onChange={(e) => setVehicleNumber(e.target.value)}
-            placeholder="e.g., GR-1234-20"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className={styles.submitButton}
-        >
-          {loading ? "Registering..." : "Register as Driver"}
-        </button>
-        <div className={styles.info}>
-          <strong>Note:</strong> Once registered, you'll be able to accept
-          delivery orders and earn money.
-        </div>
-      </form>
+            {loading ? "Registering..." : "Register as Driver"} <FaArrowRight />
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,35 +1,173 @@
 .container {
-  max-width: 42rem;
+  max-width: 800px;
   margin: 0 auto;
 }
 
-.title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--dark);
+}
+
+.editButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.editButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .card {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  background: var(--white);
+  border-radius: 1.5rem;
+  border: 1px solid var(--border);
+  overflow: hidden;
 }
 
-.field {
-  margin-bottom: 1rem;
+.avatar {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
-.label {
+.avatarPlaceholder {
+  width: 100px;
+  height: 100px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.profileInfo {
+  padding: 2rem;
+}
+
+.infoRow {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.infoIcon {
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-top: 0.25rem;
+}
+
+.infoContent {
+  flex: 1;
+}
+
+.infoContent label {
   display: block;
-  color: #374151;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--gray);
   margin-bottom: 0.25rem;
 }
 
-.value {
+.infoContent p {
+  font-size: 1rem;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+.editInput {
+  width: 100%;
   padding: 0.5rem;
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.375rem;
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: var(--white);
+  color: var(--dark);
+}
+
+.editInput:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.roleBadge {
+  display: inline-block;
+  background: var(--success);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.editActions {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--background);
+  border-top: 1px solid var(--border);
+}
+
+.cancelButton {
+  flex: 1;
+  padding: 0.75rem;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancelButton:hover {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+
+.saveButton {
+  flex: 1;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.saveButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }

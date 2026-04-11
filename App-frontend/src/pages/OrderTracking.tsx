@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { ordersApi } from "../api/orders";
 import { Order } from "../types";
+import {
+  FaCheckCircle,
+  FaClock,
+  FaMotorcycle,
+  FaStore,
+  FaHome,
+} from "react-icons/fa";
 import Loader from "../components/Loader";
 import styles from "./OrderTracking.module.css";
 
@@ -28,59 +35,132 @@ export default function OrderTracking() {
   if (loading) return <Loader />;
   if (!order) return <div>Order not found</div>;
 
-  const statusSteps = [
-    "pending",
-    "confirmed",
-    "preparing",
-    "ready_for_pickup",
-    "assigned",
-    "picked_up",
-    "delivered",
+  const steps = [
+    {
+      key: "pending",
+      icon: FaClock,
+      label: "Order Placed",
+      description: "Your order has been received",
+    },
+    {
+      key: "confirmed",
+      icon: FaCheckCircle,
+      label: "Confirmed",
+      description: "Restaurant accepted your order",
+    },
+    {
+      key: "preparing",
+      icon: FaStore,
+      label: "Preparing",
+      description: "Restaurant is preparing your food",
+    },
+    {
+      key: "ready_for_pickup",
+      icon: FaCheckCircle,
+      label: "Ready",
+      description: "Order ready for pickup",
+    },
+    {
+      key: "assigned",
+      icon: FaMotorcycle,
+      label: "Assigned",
+      description: "Driver assigned to your order",
+    },
+    {
+      key: "picked_up",
+      icon: FaMotorcycle,
+      label: "Picked Up",
+      description: "Driver picked up your order",
+    },
+    {
+      key: "delivered",
+      icon: FaHome,
+      label: "Delivered",
+      description: "Order delivered to your door",
+    },
   ];
-  const currentStep = statusSteps.indexOf(order.status);
 
-  const getStepStatus = (index: number) => {
-    if (index < currentStep) return "completed";
-    if (index === currentStep) return "active";
-    return "pending";
-  };
+  const currentStepIndex = steps.findIndex((s) => s.key === order.status);
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Order #{order._id.slice(-6)}</h1>
+      <div className={styles.header}>
+        <h1>Track Your Order</h1>
+        <p className={styles.orderId}>Order #{order._id.slice(-8)}</p>
+      </div>
 
-      <div className={styles.statusCard}>
-        <h2 className={styles.statusTitle}>Order Status</h2>
-        <div className={styles.statusSteps}>
-          {statusSteps.map((step, idx) => (
-            <div key={step} className={styles.step}>
+      <div className={styles.progressContainer}>
+        <div className={styles.progressBar}>
+          <div
+            className={styles.progressFill}
+            style={{
+              width: `${(currentStepIndex / (steps.length - 1)) * 100}%`,
+            }}
+          />
+        </div>
+        <div className={styles.steps}>
+          {steps.map((step, index) => {
+            const isCompleted = index <= currentStepIndex;
+            const isActive = index === currentStepIndex;
+            const Icon = step.icon;
+            return (
               <div
-                className={`${styles.stepCircle} ${styles[getStepStatus(idx)]}`}
+                key={step.key}
+                className={`${styles.step} ${isCompleted ? styles.completed : ""} ${isActive ? styles.active : ""}`}
               >
-                {idx < currentStep ? "✓" : idx + 1}
+                <div className={styles.stepIcon}>
+                  <Icon />
+                </div>
+                <div className={styles.stepLabel}>{step.label}</div>
+                <div className={styles.stepDesc}>{step.description}</div>
               </div>
-              <span className={styles.stepLabel}>{step.replace("_", " ")}</span>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className={styles.orderDetails}>
+        <h2>Order Details</h2>
+        <div className={styles.detailsGrid}>
+          <div className={styles.detailCard}>
+            <h3>Restaurant</h3>
+            <p>{order.restaurant?.name}</p>
+          </div>
+          <div className={styles.detailCard}>
+            <h3>Delivery Address</h3>
+            <p>{order.deliveryAddress?.text}</p>
+          </div>
+          <div className={styles.detailCard}>
+            <h3>Payment Method</h3>
+            <p>{order.paymentMethod === "momo" ? "Mobile Money" : "Card"}</p>
+          </div>
+          <div className={styles.detailCard}>
+            <h3>Total Amount</h3>
+            <p className={styles.totalAmount}>
+              GHS {order.totalAmount.toFixed(2)}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.orderItems}>
+        <h2>Items Ordered</h2>
+        <div className={styles.itemsList}>
+          {order.items.map((item, idx) => (
+            <div key={idx} className={styles.itemRow}>
+              <span className={styles.itemName}>{item.name}</span>
+              <span className={styles.itemQuantity}>x{item.quantity}</span>
+              <span className={styles.itemPrice}>
+                GHS {(item.price * item.quantity).toFixed(2)}
+              </span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className={styles.infoCard}>
-        <h2 className={styles.infoTitle}>Order Details</h2>
-        <p>
-          <strong>Restaurant:</strong> {order.restaurant?.name}
-        </p>
-        <p>
-          <strong>Delivery Address:</strong> {order.deliveryAddress?.text}
-        </p>
-        <p>
-          <strong>Payment Method:</strong>{" "}
-          {order.paymentMethod === "momo" ? "Mobile Money" : "Card"}
-        </p>
-        <p>
-          <strong>Total Amount:</strong> GHS {order.totalAmount.toFixed(2)}
-        </p>
-      </div>
+      <Link to="/orders" className={styles.backButton}>
+        ← Back to Orders
+      </Link>
     </div>
   );
 }

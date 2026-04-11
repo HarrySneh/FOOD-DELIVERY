@@ -1,146 +1,145 @@
 .container {
-  max-width: 80rem;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: var(--dark);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: var(--white);
+  padding: 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.statIcon {
   font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.statCard h3 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray);
+  margin-bottom: 0.25rem;
+}
+
+.earnings, .rating, .completed {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dark);
 }
 
 .section {
   margin-bottom: 2rem;
 }
 
-.sectionTitle {
+.section h2 {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 1rem;
-}
-
-.ordersGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.orderCard {
-  background-color: white;
-  border: 1px solid #e5e7eb;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  transition: box-shadow 0.2s;
-}
-
-.orderCard:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.orderHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-}
-
-.orderId {
-  font-weight: 600;
-}
-
-.orderStatus {
-  text-transform: capitalize;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  background-color: #d1fae5;
-  color: #065f46;
-}
-
-.orderDetails {
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-.orderDetails p {
-  margin-bottom: 0.25rem;
-}
-
-.acceptButton {
-  background-color: #dc2626;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  transition: background-color 0.2s;
-  border: none;
-  cursor: pointer;
-  margin-right: 0.5rem;
-}
-
-.acceptButton:hover {
-  background-color: #b91c1c;
-}
-
-.actionButton {
-  background-color: #3b82f6;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  transition: background-color 0.2s;
-  border: none;
-  cursor: pointer;
-  margin-right: 0.5rem;
-}
-
-.actionButton:hover {
-  background-color: #2563eb;
-}
-
-.deliverButton {
-  background-color: #10b981;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  transition: background-color 0.2s;
-  border: none;
-  cursor: pointer;
-  margin-right: 0.5rem;
-}
-
-.deliverButton:hover {
-  background-color: #059669;
-}
-
-.trackLink {
-  color: #3b82f6;
-  text-decoration: underline;
-  font-size: 0.875rem;
-  display: inline-block;
-  margin-top: 0.5rem;
+  color: var(--dark);
 }
 
 .emptyMessage {
   text-align: center;
   padding: 2rem;
-  color: #6b7280;
-  background-color: white;
-  border-radius: 0.5rem;
+  color: var(--gray);
+  background: var(--white);
+  border-radius: 1rem;
+  border: 1px solid var(--border);
 }
 
-.earningsCard {
-  background-color: white;
+.orderCard {
+  background: var(--white);
+  border-radius: 1rem;
+  border: 1px solid var(--border);
   padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.earningsAmount {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #dc2626;
+.orderInfo {
+  flex: 1;
+}
+
+.restaurantName {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--dark);
+}
+
+.orderDetails, .orderStatus {
+  font-size: 0.875rem;
+  color: var(--gray);
+}
+
+.orderStatus {
+  text-transform: capitalize;
+}
+
+.orderActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.acceptButton, .pickupButton, .deliverButton {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.acceptButton {
+  background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+  color: white;
+  border: none;
+}
+
+.pickupButton {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: none;
+}
+
+.deliverButton {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  border: none;
+}
+
+.acceptButton:hover, .pickupButton:hover, .deliverButton:hover {
+  transform: translateY(-2px);
+}
+
+.trackLink {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.trackLink:hover {
+  text-decoration: underline;
 }

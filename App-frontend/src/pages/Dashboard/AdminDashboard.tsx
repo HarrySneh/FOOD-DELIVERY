@@ -1,33 +1,32 @@
 import { useState, useEffect } from "react";
-import { restaurantsApi } from "../../api/restaurants";
-import { Restaurant } from "../../types";
+import {
+  FaUsers,
+  FaStore,
+  FaBox,
+  FaMotorcycle,
+  FaCheckCircle,
+} from "react-icons/fa";
 import Loader from "../../components/Loader";
-import { toast } from "react-toastify";
 import styles from "./AdminDashboard.module.css";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
-    users: 0,
-    restaurants: 0,
-    orders: 0,
-    drivers: 0,
+    totalUsers: 0,
+    totalRestaurants: 0,
+    totalOrders: 0,
+    totalDrivers: 0,
   });
-  const [pendingRestaurants, setPendingRestaurants] = useState<Restaurant[]>(
-    [],
-  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchStats = async () => {
       try {
-        const { data: restaurants } = await restaurantsApi.getAll();
-        const pending = restaurants.filter((r) => !(r as any).approved);
-        setPendingRestaurants(pending);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         setStats({
-          users: 156,
-          restaurants: restaurants.length,
-          orders: 342,
-          drivers: 12,
+          totalUsers: 1250,
+          totalRestaurants: 85,
+          totalOrders: 3420,
+          totalDrivers: 45,
         });
       } catch (error) {
         console.error(error);
@@ -35,79 +34,80 @@ export default function AdminDashboard() {
         setLoading(false);
       }
     };
-    fetchData();
+    fetchStats();
   }, []);
 
-  const approveRestaurant = async (id: string) => {
-    try {
-      await restaurantsApi.approve(id);
-      setPendingRestaurants((prev) => prev.filter((r) => r._id !== id));
-      toast.success("Restaurant approved");
-    } catch (error) {
-      toast.error("Failed to approve restaurant");
-    }
-  };
-
   if (loading) return <Loader />;
+
+  const statCards = [
+    {
+      icon: FaUsers,
+      label: "Total Users",
+      value: stats.totalUsers,
+      color: "#2563eb",
+    },
+    {
+      icon: FaStore,
+      label: "Restaurants",
+      value: stats.totalRestaurants,
+      color: "#ea580c",
+    },
+    {
+      icon: FaBox,
+      label: "Total Orders",
+      value: stats.totalOrders,
+      color: "#10b981",
+    },
+    {
+      icon: FaMotorcycle,
+      label: "Active Drivers",
+      value: stats.totalDrivers,
+      color: "#6366f1",
+    },
+  ];
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Admin Dashboard</h1>
 
       <div className={styles.statsGrid}>
-        <div className={styles.statCard}>
-          <h3>Total Users</h3>
-          <p className={styles.statValue}>{stats.users}</p>
-        </div>
-        <div className={styles.statCard}>
-          <h3>Restaurants</h3>
-          <p className={styles.statValue}>{stats.restaurants}</p>
-        </div>
-        <div className={styles.statCard}>
-          <h3>Total Orders</h3>
-          <p className={styles.statValue}>{stats.orders}</p>
-        </div>
-        <div className={styles.statCard}>
-          <h3>Active Drivers</h3>
-          <p className={styles.statValue}>{stats.drivers}</p>
-        </div>
+        {statCards.map((card, idx) => (
+          <div key={idx} className={styles.statCard}>
+            <card.icon
+              className={styles.statIcon}
+              style={{ color: card.color }}
+            />
+            <h3>{card.label}</h3>
+            <p className={styles.statValue}>{card.value.toLocaleString()}</p>
+          </div>
+        ))}
       </div>
 
-      <div className={styles.sectionCard}>
-        <h2 className={styles.sectionTitle}>Pending Restaurants</h2>
-        {pendingRestaurants.length === 0 ? (
-          <p>No pending restaurants</p>
-        ) : (
-          <div className={styles.table}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Cuisine</th>
-                  <th>Address</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pendingRestaurants.map((rest) => (
-                  <tr key={rest._id}>
-                    <td>{rest.name}</td>
-                    <td>{rest.cuisine?.join(", ")}</td>
-                    <td>{rest.address}</td>
-                    <td>
-                      <button
-                        onClick={() => approveRestaurant(rest._id)}
-                        className={styles.approveButton}
-                      >
-                        Approve
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      <div className={styles.recentActivity}>
+        <h2>Recent Activity</h2>
+        <div className={styles.activityList}>
+          <div className={styles.activityItem}>
+            <FaCheckCircle className={styles.activityIcon} />
+            <div>
+              <p>New restaurant registered: Tasty Jollof</p>
+              <span className={styles.activityTime}>2 hours ago</span>
+            </div>
           </div>
-        )}
+          <div className={styles.activityItem}>
+            <FaCheckCircle className={styles.activityIcon} />
+            <div>
+              <p>New driver approved: Kwame Asante</p>
+              <span className={styles.activityTime}>5 hours ago</span>
+            </div>
+          </div>
+          <div className={styles.activityItem}>
+            <FaCheckCircle className={styles.activityIcon} />
+            <div>
+              <p>Total orders reached 1000 this week</p>
+              <span className={styles.activityTime}>1 day ago</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
