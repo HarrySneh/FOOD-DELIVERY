@@ -327,7 +327,7 @@ h2 { font-size: 2.5rem; font-weight: 800; color: var(--dark); margin-bottom: 0.7
 }
 
 .tamaleSection {
-  background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+  background : linear-gradient(135deg, #064e3b 0%, #047857 100%);
   border-radius: 1.5rem;
   margin-bottom: 4rem;
   overflow: hidden;

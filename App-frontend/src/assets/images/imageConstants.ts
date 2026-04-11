@@ -34,12 +34,12 @@ export const DISH_IMAGES = {
   waakye: "/src/assets/images/dishes/Waakye.png",
   kelewele: "/src/assets/images/dishes/Kelewele.png",
   fufu: "/src/assets/images/dishes/Fufu.png",
-  tuoZaafi: "/src/assets/images/dishes/TuoZaafi.png",
+  tuoZaafi: "/src/assets/images/dishes/Tuozaafi.png",
   wasawasa: "/src/assets/images/dishes/Wasawasa.png",
   kinkheba: "/src/assets/images/dishes/Kinkheba.png",
-  freshVegetables: "/src/assets/images/dishes/",
-  riceBag: "/src/assets/images/dishes/",
-  cookingOil: "/src/assets/images/dishes/",
+  freshVegetables: "/src/assets/images/dishes/Vegitables.png",
+  riceBag: "/src/assets/images/dishes/Rice.png",
+  cookingOil: "/src/assets/images/dishes/Oil.png",
 };
 
 // Icon Images
