@@ -46,7 +46,7 @@ export const DISH_IMAGES = {
 export const ICON_IMAGES = {
   appStore: "/src/assets/images/icons/app-store.png",
   playStore: "/src/assets/images/icons/play-store.png",
-  step1: "/src/assets/images/icons/step1.png",
+  step1: "/src/assets/images/icons/step1.svg",
   step2: "/src/assets/images/icons/step2.png",
   step3: "/src/assets/images/icons/step3.png",
   phoneMockup: "/src/assets/images/icons/phone-mockup.png",
