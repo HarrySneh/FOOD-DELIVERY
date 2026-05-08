@@ -4,6 +4,7 @@ import { Order } from "../../types";
 import { FaBox, FaCheckCircle, FaClock, FaMotorcycle } from "react-icons/fa";
 import Loader from "../../components/Loader";
 import styles from "./OwnerDashboard.module.css";
+import { Link } from "react-router-dom";
 
 export default function OwnerDashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -91,6 +92,14 @@ export default function OwnerDashboard() {
             </div>
           ))
         )}
+      </div>
+      <div className={styles.actions}>
+        <Link to="/create-restaurant" className={styles.actionButton}>
+          Create Restaurant
+        </Link>
+        <Link to="/add-menu-item" className={styles.actionButton}>
+          Add Menu Item
+        </Link>
       </div>
     </div>
   );

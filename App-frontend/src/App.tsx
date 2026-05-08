@@ -24,6 +24,9 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./hooks/useAuth";
 import Loader from "./components/Loader";
+import CreateRestaurant from "./pages/Dashboard/CreateRestaurant";
+import AddMenuItem from "./pages/Dashboard/AddMenuItem";
+
 
 function App() {
   const { user, loading } = useAuth();
@@ -94,6 +97,22 @@ function App() {
             element={
               <ProtectedRoute role="owner">
                 <OwnerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="create-restaurant"
+            element={
+              <ProtectedRoute role="owner">
+                <CreateRestaurant />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="add-menu-item"
+            element={
+              <ProtectedRoute role="owner">
+                <AddMenuItem />
               </ProtectedRoute>
             }
           />

@@ -1,24 +1,8 @@
-import apiClient from "./client";
-import { User } from "../types";
-
-export interface LoginData {
-  email: string;
-  password: string;
-}
-
-export interface RegisterData {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  role?: "customer" | "owner" | "admin" | "driver";
-}
+import apiClient from './client';
 
 export const authApi = {
-  login: (data: LoginData) =>
-    apiClient.post<{ user: User; token: string }>("/auth/login", data),
-  register: (data: RegisterData) =>
-    apiClient.post<{ user: User; token: string }>("/auth/register", data),
-  logout: () => apiClient.post("/auth/logout"),
-  getProfile: () => apiClient.get<User>("/auth/profile"),
+  register: (data) => apiClient.post('/auth/register', data),
+  login: (data) => apiClient.post('/auth/login', data),
+  logout: () => apiClient.post('/auth/logout'),
+  getProfile: () => apiClient.get('/auth/profile'),
 };

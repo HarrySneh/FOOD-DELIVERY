@@ -8,6 +8,7 @@ interface User {
   email: string;
   phone?: string;
   role: string;
+  city?: string;
 }
 
 interface AuthContextType {
@@ -18,6 +19,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
+// ✅ EXPORT the context itself
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined,
 );
@@ -27,51 +29,50 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const login = async (email: string, password: string) => {
-    setLoading(true);
-    try {
-      const { data } = await authApi.login({ email, password });
-      setUser(data.user);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      toast.success("Logged in successfully!");
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Login failed");
-      throw error;
-    } finally {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      authApi
+        .getProfile()
+        .then(({ data }) => {
+          setUser(data);
+          localStorage.setItem("user", JSON.stringify(data));
+        })
+        .catch(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setUser(null);
+        })
+        .finally(() => setLoading(false));
+    } else {
       setLoading(false);
     }
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    const { data } = await authApi.login({ email, password });
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    setUser(data.user);
+    toast.success(`Welcome back, ${data.user.name}!`);
   };
 
   const register = async (userData: any) => {
-    setLoading(true);
-    try {
-      const { data } = await authApi.register(userData);
-      setUser(data.user);
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      toast.success("Registration successful!");
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Registration failed");
-      throw error;
-    } finally {
-      setLoading(false);
-    }
+    const { data } = await authApi.register(userData);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+    setUser(data.user);
+    toast.success("Registration successful!");
   };
 
   const logout = async () => {
-    try {
-      await authApi.logout();
-    } catch (error) {
-      console.error("Logout error", error);
-    } finally {
-      setUser(null);
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      toast.success("Logged out");
-    }
+    await authApi.logout().catch(() => {});
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    toast.info("Logged out");
   };
 
   return (

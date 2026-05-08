@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
 import { useAuth } from "../hooks/useAuth";
+import { ordersApi } from "../api/orders";
+import { initializePayment } from "../services/paymentService";
 import {
   FaArrowLeft,
   FaCreditCard,
@@ -18,10 +20,6 @@ export default function Checkout() {
   const [address, setAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<"card" | "momo">("card");
   const [loading, setLoading] = useState(false);
-  const [savedAddresses] = useState([
-    { id: 1, text: "123 Main Street, Accra, Ghana", isDefault: true },
-    { id: 2, text: "45 Independence Avenue, Accra, Ghana", isDefault: false },
-  ]);
 
   const deliveryFee = 10;
   const tax = totalPrice * 0.05;
@@ -35,13 +33,42 @@ export default function Checkout() {
 
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      clearCart();
-      toast.success("Order placed successfully!");
-      navigate("/orders");
-    } catch (error) {
-      toast.error("Order failed");
-    } finally {
+      // 1. Create the order in the backend
+      const { data: order } = await ordersApi.create({
+        items: cart.map((item) => ({
+          _id: item._id,
+          restaurantId: item.restaurantId,
+          quantity: item.quantity,
+        })),
+        deliveryAddress: address,
+        paymentMethod,
+        totalAmount: finalTotal,
+      });
+
+      // 2. Initiate Paystack payment (mock or real)
+      await initializePayment(
+        order._id,
+        user?.email!,
+        order.totalAmount,
+        async (success, result) => {
+          if (success) {
+            clearCart();
+            toast.success("Payment successful! Your order is confirmed.");
+            navigate(`/tracking/${order._id}`);
+          } else {
+            toast.error(`Payment failed: ${result}`);
+            // Optionally cancel the order
+            try {
+              await ordersApi.cancel(order._id);
+            } catch (err) {
+              console.error("Cancel failed", err);
+            }
+          }
+          setLoading(false);
+        },
+      );
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Order creation failed");
       setLoading(false);
     }
   };
@@ -61,32 +88,10 @@ export default function Checkout() {
         <div className={styles.mainSection}>
           <div className={styles.section}>
             <h2>Delivery Address</h2>
-            <div className={styles.savedAddresses}>
-              {savedAddresses.map((addr) => (
-                <div
-                  key={addr.id}
-                  className={`${styles.addressCard} ${address === addr.text ? styles.selected : ""}`}
-                  onClick={() => setAddress(addr.text)}
-                >
-                  <input
-                    type="radio"
-                    name="address"
-                    checked={address === addr.text}
-                    onChange={() => setAddress(addr.text)}
-                  />
-                  <div>
-                    <p>{addr.text}</p>
-                    {addr.isDefault && (
-                      <span className={styles.defaultBadge}>Default</span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
             <textarea
               className={styles.addressInput}
               rows={3}
-              placeholder="Or enter new address (e.g., House number, street, landmark)"
+              placeholder="Enter your address (e.g., House number, street, landmark)"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
@@ -157,9 +162,7 @@ export default function Checkout() {
             disabled={loading}
             className={styles.placeOrderButton}
           >
-            {loading
-              ? "Processing..."
-              : `Place Order • GHS ${finalTotal.toFixed(2)}`}
+            {loading ? "Processing..." : `Pay GHS ${finalTotal.toFixed(2)}`}
           </button>
         </div>
       </div>

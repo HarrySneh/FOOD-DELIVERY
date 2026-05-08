@@ -1,113 +1,214 @@
 import { useState, useEffect } from "react";
-import {
-  FaUsers,
-  FaStore,
-  FaBox,
-  FaMotorcycle,
-  FaCheckCircle,
-} from "react-icons/fa";
-import Loader from "../../components/Loader";
-import styles from "./AdminDashboard.module.css";
+import { FaStore, FaBox, FaChartLine, FaClock } from "react-icons/fa";
+import { toast } from "react-toastify";
+import apiClient from "../../api/client";
+import { useAuth } from "../../hooks/useAuth";
+import styles from "./OwnerDashboard.module.css";
 
-export default function AdminDashboard() {
+interface Restaurant {
+  _id: string;
+  name: string;
+  approved: boolean;
+  deliveryFee: number;
+  rating: number;
+}
+
+interface Order {
+  _id: string;
+  orderNumber: string;
+  customerId: { name: string; phone: string };
+  totalAmount: number;
+  status: string;
+  createdAt: string;
+}
+
+export default function OwnerDashboard() {
+  const { user } = useAuth();
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalRestaurants: 0,
     totalOrders: 0,
-    totalDrivers: 0,
+    totalRevenue: 0,
+    pendingOrders: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setStats({
-          totalUsers: 1250,
-          totalRestaurants: 85,
-          totalOrders: 3420,
-          totalDrivers: 45,
-        });
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchStats();
+    fetchOwnerData();
   }, []);
 
-  if (loading) return <Loader />;
+  const fetchOwnerData = async () => {
+    try {
+      // Fetch owner's restaurant
+      const restaurantsRes = await apiClient.get(
+        "/restaurants?ownerId=" + user?._id,
+      );
+      const ownerRestaurant = restaurantsRes.data.find(
+        (r: any) => r.ownerId === user?._id,
+      );
+      if (ownerRestaurant) {
+        setRestaurant(ownerRestaurant);
+        // Fetch orders for this restaurant
+        const ordersRes = await apiClient.get(`/orders/restaurant-orders`);
+        const ordersData = ordersRes.data;
+        setOrders(ordersData);
+        const totalOrders = ordersData.length;
+        const totalRevenue = ordersData.reduce(
+          (sum: number, o: Order) => sum + o.totalAmount,
+          0,
+        );
+        const pendingOrders = ordersData.filter(
+          (o: Order) => o.status === "pending" || o.status === "confirmed",
+        ).length;
+        setStats({ totalOrders, totalRevenue, pendingOrders });
+      } else {
+        setRestaurant(null);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to load dashboard");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const statCards = [
-    {
-      icon: FaUsers,
-      label: "Total Users",
-      value: stats.totalUsers,
-      color: "#2563eb",
-    },
-    {
-      icon: FaStore,
-      label: "Restaurants",
-      value: stats.totalRestaurants,
-      color: "#ea580c",
-    },
-    {
-      icon: FaBox,
-      label: "Total Orders",
-      value: stats.totalOrders,
-      color: "#10b981",
-    },
-    {
-      icon: FaMotorcycle,
-      label: "Active Drivers",
-      value: stats.totalDrivers,
-      color: "#6366f1",
-    },
-  ];
+  const updateOrderStatus = async (orderId: string, status: string) => {
+    try {
+      await apiClient.put(`/orders/${orderId}/status`, { status });
+      setOrders((prev) =>
+        prev.map((o) => (o._id === orderId ? { ...o, status } : o)),
+      );
+      toast.success(`Order ${status}`);
+      // Refresh stats
+      const newOrders = orders.map((o) =>
+        o._id === orderId ? { ...o, status } : o,
+      );
+      const totalRevenue = newOrders.reduce((sum, o) => sum + o.totalAmount, 0);
+      const pendingOrders = newOrders.filter(
+        (o) => o.status === "pending" || o.status === "confirmed",
+      ).length;
+      setStats({ totalOrders: newOrders.length, totalRevenue, pendingOrders });
+    } catch (error) {
+      toast.error("Status update failed");
+    }
+  };
+
+  const markReady = async (orderId: string) => {
+    try {
+      await apiClient.put(`/orders/${orderId}/ready`);
+      setOrders((prev) =>
+        prev.map((o) =>
+          o._id === orderId ? { ...o, status: "ready_for_pickup" } : o,
+        ),
+      );
+      toast.success("Order ready for pickup");
+    } catch (error) {
+      toast.error("Failed to mark ready");
+    }
+  };
+
+  if (loading) return <div className={styles.loader}>Loading dashboard...</div>;
+
+  if (!restaurant) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title}>Owner Dashboard</h1>
+        <div className={styles.noRestaurant}>
+          <FaStore className={styles.noRestaurantIcon} />
+          <h2>You don't have a restaurant yet</h2>
+          <p>Click below to register your restaurant</p>
+          <button className={styles.createButton}>Create Restaurant</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Admin Dashboard</h1>
-
-      <div className={styles.statsGrid}>
-        {statCards.map((card, idx) => (
-          <div key={idx} className={styles.statCard}>
-            <card.icon
-              className={styles.statIcon}
-              style={{ color: card.color }}
-            />
-            <h3>{card.label}</h3>
-            <p className={styles.statValue}>{card.value.toLocaleString()}</p>
-          </div>
-        ))}
+      <h1 className={styles.title}>Owner Dashboard</h1>
+      <div className={styles.restaurantInfo}>
+        <h2>{restaurant.name}</h2>
+        <p>
+          Status: {restaurant.approved ? "✅ Approved" : "⏳ Pending Approval"}
+        </p>
       </div>
 
-      <div className={styles.recentActivity}>
-        <h2>Recent Activity</h2>
-        <div className={styles.activityList}>
-          <div className={styles.activityItem}>
-            <FaCheckCircle className={styles.activityIcon} />
-            <div>
-              <p>New restaurant registered: Tasty Jollof</p>
-              <span className={styles.activityTime}>2 hours ago</span>
-            </div>
-          </div>
-          <div className={styles.activityItem}>
-            <FaCheckCircle className={styles.activityIcon} />
-            <div>
-              <p>New driver approved: Kwame Asante</p>
-              <span className={styles.activityTime}>5 hours ago</span>
-            </div>
-          </div>
-          <div className={styles.activityItem}>
-            <FaCheckCircle className={styles.activityIcon} />
-            <div>
-              <p>Total orders reached 1000 this week</p>
-              <span className={styles.activityTime}>1 day ago</span>
-            </div>
-          </div>
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <FaBox className={styles.statIcon} />
+          <h3>Total Orders</h3>
+          <p className={styles.statValue}>{stats.totalOrders}</p>
         </div>
+        <div className={styles.statCard}>
+          <FaChartLine className={styles.statIcon} />
+          <h3>Total Revenue</h3>
+          <p className={styles.statValue}>
+            GHS {stats.totalRevenue.toFixed(2)}
+          </p>
+        </div>
+        <div className={styles.statCard}>
+          <FaClock className={styles.statIcon} />
+          <h3>Pending Orders</h3>
+          <p className={styles.statValue}>{stats.pendingOrders}</p>
+        </div>
+      </div>
+
+      <div className={styles.ordersSection}>
+        <h2>Recent Orders</h2>
+        {orders.length === 0 && (
+          <p className={styles.emptyMessage}>No orders yet.</p>
+        )}
+        {orders.map((order) => (
+          <div key={order._id} className={styles.orderCard}>
+            <div className={styles.orderHeader}>
+              <span className={styles.orderNumber}>{order.orderNumber}</span>
+              <span className={`${styles.orderStatus} ${styles[order.status]}`}>
+                {order.status.replace("_", " ")}
+              </span>
+            </div>
+            <div className={styles.orderDetails}>
+              <p>
+                <strong>Customer:</strong> {order.customerId?.name}
+              </p>
+              <p>
+                <strong>Phone:</strong> {order.customerId?.phone}
+              </p>
+              <p>
+                <strong>Total:</strong> GHS {order.totalAmount.toFixed(2)}
+              </p>
+              <p>
+                <strong>Placed:</strong>{" "}
+                {new Date(order.createdAt).toLocaleString()}
+              </p>
+            </div>
+            <div className={styles.orderActions}>
+              {order.status === "pending" && (
+                <button
+                  onClick={() => updateOrderStatus(order._id, "confirmed")}
+                  className={styles.confirmButton}
+                >
+                  Confirm
+                </button>
+              )}
+              {order.status === "confirmed" && (
+                <button
+                  onClick={() => updateOrderStatus(order._id, "preparing")}
+                  className={styles.prepareButton}
+                >
+                  Start Preparing
+                </button>
+              )}
+              {order.status === "preparing" && (
+                <button
+                  onClick={() => markReady(order._id)}
+                  className={styles.readyButton}
+                >
+                  Mark Ready for Pickup
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,12 +1,6 @@
-import apiClient from "./client";
-import { PaystackInitializeResponse } from "../types";
+import apiClient from './client';
 
 export const paymentsApi = {
-  initialize: (orderId: string, amount: number, email: string) =>
-    apiClient.post<PaystackInitializeResponse>("/payments/initialize", {
-      orderId,
-      amount,
-      email,
-    }),
-  verify: (reference: string) => apiClient.get(`/payments/verify/${reference}`),
+  initiate: (orderId) => apiClient.post(`/payments/initiate/${orderId}`),
+  verify: (reference) => apiClient.get(`/payments/verify?reference=${reference}`),
 };
