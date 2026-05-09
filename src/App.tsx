@@ -30,13 +30,17 @@ import AddMenuItem from "./pages/Dashboard/AddMenuItem";
 
 function App() {
   const { user, loading } = useAuth();
+  const basename = import.meta.env.BASE_URL;
 
   if (loading) {
     return <Loader />;
   }
 
   return (
-    <BrowserRouter basename="/FOOD-DELIVERY">
+    <BrowserRouter
+      basename={basename}
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
