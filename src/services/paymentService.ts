@@ -8,7 +8,7 @@ export const initializePayment = async (
 ): Promise<void> => {
   try {
     const { data } = await apiClient.post(`/payments/initiate/${orderId}`);
-    const { authorization_url, reference } = data;
+    const { reference } = data; // `authorization_url` removed
 
     const handler = (window as any).PaystackPop.setup({
       key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,

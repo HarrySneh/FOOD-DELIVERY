@@ -4,7 +4,6 @@ import { useCart } from "../hooks/useCart";
 import {
   FaMotorcycle,
   FaUtensils,
-  FaClock,
   FaShieldAlt,
   FaStar,
   FaArrowRight,
