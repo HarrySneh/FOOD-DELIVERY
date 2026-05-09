@@ -1,0 +1,185 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 2rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 4rem;
+  background: var(--white);
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  color: var(--gray);
+  margin-bottom: 1rem;
+}
+
+.empty h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--dark);
+}
+
+.empty p {
+  color: var(--gray);
+  margin-bottom: 2rem;
+}
+
+.browseButton {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 0.875rem 2rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.browseButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.ordersList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.orderCard {
+  background: var(--white);
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.orderCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.orderNumber {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--dark);
+  margin-right: 1rem;
+}
+
+.orderStatus {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.statusDelivered { background: #d1fae5; color: #065f46; }
+.statusOutForDelivery { background: #fed7aa; color: #9a3412; }
+.statusPreparing { background: #e0e7ff; color: #3730a3; }
+.statusConfirmed { background: #dbeafe; color: #1e40af; }
+.statusPending { background: #fef3c7; color: #92400e; }
+
+.orderDate {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--gray);
+}
+
+.orderDetails {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.detailRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--gray);
+  margin-bottom: 0.5rem;
+}
+
+.detailRow:last-child {
+  margin-bottom: 0;
+}
+
+.detailIcon {
+  font-size: 0.875rem;
+  color: var(--primary);
+}
+
+.orderItems {
+  margin-bottom: 1rem;
+}
+
+.itemsLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray);
+  margin-bottom: 0.5rem;
+}
+
+.itemsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.itemTag {
+  background: var(--background);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  color: var(--dark);
+}
+
+.moreItems {
+  font-size: 0.75rem;
+  color: var(--gray);
+}
+
+.orderFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.trackButton {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.trackButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}

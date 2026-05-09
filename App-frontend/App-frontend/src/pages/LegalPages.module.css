@@ -1,0 +1,66 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: var(--gray);
+}
+
+.content {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+}
+
+.content section {
+  margin-bottom: 2rem;
+}
+
+.content h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 0.75rem;
+}
+
+.content p {
+  color: var(--gray);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.content ul, .content ol {
+  margin: 0.75rem 0 0.75rem 1.5rem;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+.content li {
+  margin-bottom: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem;
+  }
+}

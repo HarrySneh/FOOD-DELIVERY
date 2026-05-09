@@ -1,0 +1,63 @@
+.card {
+  background-color: var(--white);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  display: block;
+  border: 1px solid var(--border);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.image {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+}
+
+.content {
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--dark);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--gray);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.star {
+  color: #fbbf24;
+}
+
+.cuisine {
+  color: var(--gray);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.deliveryFee {
+  color: var(--primary);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  font-weight: 600;
+}
