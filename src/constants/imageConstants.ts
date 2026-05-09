@@ -1,4 +1,4 @@
-const base = import.meta.env.BASE_URL; // resolves to '/FOOD-DELIVERY/'
+const base = import.meta.env.BASE_URL; // '/FOOD-DELIVERY/'
 
 export const RESTAURANT_IMAGES = {
   tuoZaafiPalace: `${base}assets/images/restaurants/tuo-zaafi-palace.jpg`,

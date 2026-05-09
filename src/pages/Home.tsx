@@ -18,7 +18,7 @@ import {
   HERO_IMAGES,
   DISH_IMAGES,
   ICON_IMAGES,
-} from "../assets/images/imageConstants";
+} from "../constants/imageConstants";
 import styles from "./Home.module.css";
 
 export default function Home() {
@@ -46,9 +46,10 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    const interval = setInterval(
+      () => setCurrentSlide((prev) => (prev + 1) % slides.length),
+      5000,
+    );
     return () => clearInterval(interval);
   }, []);
 
@@ -164,12 +165,11 @@ export default function Home() {
     { number: "98%", label: "Satisfaction", icon: <FaShieldAlt /> },
   ];
 
-  const openWhatsApp = () => {
+  const openWhatsApp = () =>
     window.open(
-      "https://wa.me/233123456789?text=Hello%20TamaEat%2C%20I%20need%20help%20with%20my%20order",
+      "https://wa.me/233123456789?text=Hello%20TamaEat%2C%20I%20need%20help",
       "_blank",
     );
-  };
 
   return (
     <div className={styles.container}>
@@ -256,7 +256,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Tamale Special Section */}
       <div className={styles.tamaleSection}>
         <div className={styles.tamaleContent}>
           <h2>🇬🇭 Now Serving Tamale!</h2>
@@ -442,7 +441,7 @@ export default function Home() {
                   src={ICON_IMAGES.appStore}
                   alt="App Store"
                   className={styles.appIcon}
-                />
+                />{" "}
                 App Store
               </button>
               <button className={styles.playStoreButton}>
@@ -450,7 +449,7 @@ export default function Home() {
                   src={ICON_IMAGES.playStore}
                   alt="Google Play"
                   className={styles.appIcon}
-                />
+                />{" "}
                 Google Play
               </button>
             </div>

@@ -2,10 +2,9 @@ import { useState } from "react";
 import { useCart } from "../hooks/useCart";
 import { FaStar, FaShoppingCart, FaMapMarkerAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { RESTAURANT_IMAGES } from "../assets/images/imageConstants";
+import { RESTAURANT_IMAGES } from "../constants/imageConstants";
 import styles from "./Restaurants.module.css";
 
-// ---------- Sample data (unchanged) ----------
 const tamaleRestaurants = [
   {
     id: 1,
@@ -74,7 +73,6 @@ const tamaleRestaurants = [
     description: "Authentic Dagbani cuisine",
   },
 ];
-
 const accraRestaurants = [
   {
     id: 7,
@@ -110,7 +108,6 @@ const accraRestaurants = [
     description: "Famous Waakye spot",
   },
 ];
-
 const kumasiRestaurants = [
   {
     id: 10,
@@ -147,20 +144,18 @@ export default function Restaurants() {
   const [search, setSearch] = useState("");
   const [selectedCity, setSelectedCity] = useState("all");
   const [showLocationPrompt, setShowLocationPrompt] = useState(true);
-
   const cities = ["all", "Tamale", "Accra", "Kumasi"];
 
-  const filteredRestaurants = allRestaurants.filter((rest) => {
-    const matchesSearch =
-      rest.name.toLowerCase().includes(search.toLowerCase()) ||
-      rest.cuisine.toLowerCase().includes(search.toLowerCase());
-    const matchesCity =
-      selectedCity === "all" || rest.location.includes(selectedCity);
-    return matchesSearch && matchesCity;
+  const filtered = allRestaurants.filter((r) => {
+    const matchSearch =
+      r.name.toLowerCase().includes(search.toLowerCase()) ||
+      r.cuisine.toLowerCase().includes(search.toLowerCase());
+    const matchCity =
+      selectedCity === "all" || r.location.includes(selectedCity);
+    return matchSearch && matchCity;
   });
 
-  // ✅ FIXED: addToCart now includes all required CartItem fields
-  const handleAddToCart = (restaurant: (typeof allRestaurants)[0]) => {
+  const handleAddToCart = (restaurant: any) => {
     addToCart({
       _id: `sample-${Date.now()}`,
       name: `Sample Dish from ${restaurant.name}`,
@@ -193,12 +188,10 @@ export default function Restaurants() {
           <button className={styles.changeButton}>Change</button>
         </div>
       )}
-
       <div className={styles.header}>
         <h1>Restaurants in Ghana</h1>
         <p>Discover the best local cuisine near you</p>
       </div>
-
       <div className={styles.citySelector}>
         {cities.map((city) => (
           <button
@@ -213,7 +206,6 @@ export default function Restaurants() {
           </button>
         ))}
       </div>
-
       <div className={styles.filters}>
         <input
           type="text"
@@ -223,16 +215,14 @@ export default function Restaurants() {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-
       {selectedCity === "Tamale" && (
         <div className={styles.cityHighlight}>
           <h3>📍 Popular in Tamale</h3>
           <p>Discover the best Northern Ghanaian cuisine</p>
         </div>
       )}
-
       <div className={styles.restaurantGrid}>
-        {filteredRestaurants.map((rest) => (
+        {filtered.map((rest) => (
           <div key={rest.id} className={styles.restaurantCard}>
             <div className={styles.imageContainer}>
               <img
@@ -270,8 +260,7 @@ export default function Restaurants() {
           </div>
         ))}
       </div>
-
-      {filteredRestaurants.length === 0 && (
+      {filtered.length === 0 && (
         <p className={styles.noResults}>
           No restaurants found in {selectedCity}.
         </p>

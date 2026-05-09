@@ -10,6 +10,6 @@ export const restaurantsApi = {
   create: (data: Partial<Restaurant>) =>
     apiClient.post<Restaurant>("/restaurants", data),
   addMenuItem: (restaurantId: string, data: Partial<MenuItem>) =>
-    apiClient.post<MenuItem>(`/restaurants/${restaurantId}/menu`, data),
+    apiClient.post(`/restaurants/${restaurantId}/menu`, data),
   approve: (id: string) => apiClient.put(`/restaurants/${id}/approve`),
 };

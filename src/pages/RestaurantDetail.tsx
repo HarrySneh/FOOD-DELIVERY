@@ -1,281 +1,149 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
-import { FaStar, FaShoppingCart, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaStar,
+  FaClock,
+  FaMapMarkerAlt,
+  FaChevronLeft,
+  FaShoppingCart,
+} from "react-icons/fa";
 import { toast } from "react-toastify";
-import { RESTAURANT_IMAGES } from "../assets/images/imageConstants";
-import styles from "./Restaurants.module.css";
+import Loader from "../components/Loader";
+import { RESTAURANT_IMAGES } from "../constants/imageConstants";
+import styles from "./RestaurantDetail.module.css";
 
-// ---------- Sample data (unchanged) ----------
-const tamaleRestaurants = [
-  {
-    id: 1,
-    name: "Tuo Zaafi Palace",
-    cuisine: "Northern Ghanaian",
-    deliveryFee: 8,
-    image: RESTAURANT_IMAGES.tuoZaafiPalace,
-    rating: 4.9,
-    deliveryTime: 25,
-    location: "Tamale Central",
-    description: "Authentic Tuo Zaafi and Northern delicacies",
-  },
-  {
-    id: 2,
-    name: "Tamale Chop Bar",
-    cuisine: "Local Ghanaian",
-    deliveryFee: 6,
-    image: RESTAURANT_IMAGES.tamaleChopBar,
-    rating: 4.7,
-    deliveryTime: 20,
-    location: "Tamale South",
-    description: "Traditional Northern Ghanaian dishes",
-  },
-  {
-    id: 3,
-    name: "Northern Delight",
-    cuisine: "Wasawasa & Kinkheba",
-    deliveryFee: 7,
-    image: RESTAURANT_IMAGES.northernDelight,
-    rating: 4.8,
-    deliveryTime: 30,
-    location: "Tamale North",
-    description: "Best Wasawasa in Tamale",
-  },
-  {
-    id: 4,
-    name: "Savanna Restaurant",
-    cuisine: "Continental & Local",
-    deliveryFee: 10,
-    image: RESTAURANT_IMAGES.savannaRestaurant,
-    rating: 4.6,
-    deliveryTime: 35,
-    location: "Tamale Central",
-    description: "Mix of local and international cuisine",
-  },
-  {
-    id: 5,
-    name: "Zongo Junction",
-    cuisine: "Street Food",
-    deliveryFee: 5,
-    image: RESTAURANT_IMAGES.zongoJunction,
-    rating: 4.5,
-    deliveryTime: 15,
-    location: "Tamale South",
-    description: "Best street food in Tamale",
-  },
-  {
-    id: 6,
-    name: "Dagbani Kitchen",
-    cuisine: "Northern Traditional",
-    deliveryFee: 8,
-    image: RESTAURANT_IMAGES.dagbaniKitchen,
-    rating: 4.8,
-    deliveryTime: 28,
-    location: "Tamale North",
-    description: "Authentic Dagbani cuisine",
-  },
-];
-
-const accraRestaurants = [
-  {
-    id: 7,
-    name: "Tasty Jollof",
-    cuisine: "Jollof Rice",
-    deliveryFee: 10,
-    image: RESTAURANT_IMAGES.tastyJollof,
-    rating: 4.8,
-    deliveryTime: 25,
-    location: "Accra Central",
-    description: "Best Jollof in Accra",
-  },
-  {
-    id: 8,
-    name: "Banku Paradise",
-    cuisine: "Banku & Tilapia",
-    deliveryFee: 12,
-    image: RESTAURANT_IMAGES.bankuParadise,
-    rating: 4.9,
-    deliveryTime: 30,
-    location: "Accra East",
-    description: "Authentic Banku and fresh Tilapia",
-  },
-  {
-    id: 9,
-    name: "Waakye House",
-    cuisine: "Waakye",
-    deliveryFee: 8,
-    image: RESTAURANT_IMAGES.waakyeHouse,
-    rating: 4.7,
-    deliveryTime: 20,
-    location: "Accra West",
-    description: "Famous Waakye spot",
-  },
-];
-
-const kumasiRestaurants = [
-  {
-    id: 10,
-    name: "Kumasi Fufu Spot",
-    cuisine: "Fufu & Soup",
-    deliveryFee: 12,
-    image: RESTAURANT_IMAGES.kumasiFufuSpot,
-    rating: 4.8,
-    deliveryTime: 30,
-    location: "Kumasi Central",
-    description: "Traditional Fufu and light soup",
-  },
-  {
-    id: 11,
-    name: "Garden City Eats",
-    cuisine: "Variety",
-    deliveryFee: 10,
-    image: RESTAURANT_IMAGES.gardenCityEats,
-    rating: 4.6,
-    deliveryTime: 25,
-    location: "Kumasi South",
-    description: "Wide variety of local dishes",
-  },
-];
-
-const allRestaurants = [
-  ...tamaleRestaurants,
-  ...accraRestaurants,
-  ...kumasiRestaurants,
-];
-
-export default function Restaurants() {
+export default function RestaurantDetail() {
+  const { id } = useParams();
+  const [restaurant, setRestaurant] = useState<any>(null);
+  const [menu, setMenu] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
-  const [search, setSearch] = useState("");
-  const [selectedCity, setSelectedCity] = useState("all");
-  const [showLocationPrompt, setShowLocationPrompt] = useState(true);
 
-  const cities = ["all", "Tamale", "Accra", "Kumasi"];
+  useEffect(() => {
+    // For demo, we set a mock restaurant matching one of our constants
+    const mockRestaurants = [
+      {
+        _id: "1",
+        name: "Tuo Zaafi Palace",
+        description: "Authentic Northern Ghanaian cuisine",
+        image: RESTAURANT_IMAGES.tuoZaafiPalace,
+        rating: 4.9,
+        deliveryTime: 25,
+        deliveryFee: 8,
+        address: "Tamale Central, Tamale",
+        cuisine: ["Northern Ghanaian"],
+      },
+      {
+        _id: "2",
+        name: "Tamale Chop Bar",
+        image: RESTAURANT_IMAGES.tamaleChopBar,
+        description: "Traditional Northern dishes",
+        rating: 4.7,
+        deliveryTime: 20,
+        deliveryFee: 6,
+        address: "Tamale South",
+        cuisine: ["Local Ghanaian"],
+      },
+    ];
+    const found =
+      mockRestaurants.find((r) => r._id === id) || mockRestaurants[0];
+    setRestaurant(found);
+    setMenu([
+      {
+        _id: "m1",
+        name: "Tuo Zaafi",
+        description: "Millet dumpling with ayoyo soup",
+        price: 25,
+        category: "Main",
+      },
+      {
+        _id: "m2",
+        name: "Wasawasa",
+        description: "Yam flour dumplings",
+        price: 20,
+        category: "Main",
+      },
+      {
+        _id: "m3",
+        name: "Kinkheba",
+        description: "Spicy grilled meat",
+        price: 30,
+        category: "Main",
+      },
+    ]);
+    setLoading(false);
+  }, [id]);
 
-  const filteredRestaurants = allRestaurants.filter((rest) => {
-    const matchesSearch =
-      rest.name.toLowerCase().includes(search.toLowerCase()) ||
-      rest.cuisine.toLowerCase().includes(search.toLowerCase());
-    const matchesCity =
-      selectedCity === "all" || rest.location.includes(selectedCity);
-    return matchesSearch && matchesCity;
-  });
-
-  // ✅ FIXED: addToCart now includes all required CartItem fields
-  const handleAddToCart = (restaurant: (typeof allRestaurants)[0]) => {
+  const handleAddToCart = (item: any) => {
     addToCart({
-      _id: `sample-${Date.now()}`,
-      name: `Sample Dish from ${restaurant.name}`,
-      price: 25,
+      _id: item._id,
+      name: item.name,
+      price: item.price,
       quantity: 1,
-      restaurantId: restaurant.id.toString(),
+      restaurantId: restaurant._id,
       restaurantName: restaurant.name,
-      description: `Delicious sample from ${restaurant.name}`,
-      category: "Main",
+      description: item.description,
+      category: item.category,
       image: "",
     });
-    toast.success(`Added sample item from ${restaurant.name}!`);
+    toast.success(`Added ${item.name} to cart`);
   };
+
+  if (loading) return <Loader />;
+  if (!restaurant) return <div>Restaurant not found</div>;
 
   return (
     <div className={styles.container}>
-      {showLocationPrompt && (
-        <div className={styles.locationPrompt}>
-          <FaMapMarkerAlt />
-          <div>
-            <strong>Delivering to Tamale</strong>
-            <p>Is this your correct location?</p>
-          </div>
-          <button
-            onClick={() => setShowLocationPrompt(false)}
-            className={styles.confirmButton}
-          >
-            Yes, Confirm
-          </button>
-          <button className={styles.changeButton}>Change</button>
-        </div>
-      )}
-
-      <div className={styles.header}>
-        <h1>Restaurants in Ghana</h1>
-        <p>Discover the best local cuisine near you</p>
-      </div>
-
-      <div className={styles.citySelector}>
-        {cities.map((city) => (
-          <button
-            key={city}
-            className={`${styles.cityButton} ${selectedCity === city ? styles.activeCity : ""}`}
-            onClick={() => setSelectedCity(city)}
-          >
-            {city === "all" ? "All Cities" : city}
-            {city === "Tamale" && (
-              <span className={styles.nearbyBadge}>Near You</span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      <div className={styles.filters}>
-        <input
-          type="text"
-          placeholder="Search restaurants or dishes..."
-          className={styles.searchInput}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+      <Link to="/restaurants" className={styles.backLink}>
+        <FaChevronLeft /> Back to Restaurants
+      </Link>
+      <div className={styles.banner}>
+        <img
+          src={restaurant.image}
+          alt={restaurant.name}
+          className={styles.bannerImage}
         />
-      </div>
-
-      {selectedCity === "Tamale" && (
-        <div className={styles.cityHighlight}>
-          <h3>📍 Popular in Tamale</h3>
-          <p>Discover the best Northern Ghanaian cuisine</p>
+        <div className={styles.bannerOverlay}>
+          <h1>{restaurant.name}</h1>
+          <div className={styles.restaurantInfo}>
+            <span>
+              <FaStar className={styles.star} /> {restaurant.rating}
+            </span>
+            <span>
+              <FaClock /> {restaurant.deliveryTime} mins
+            </span>
+            <span>
+              <FaMapMarkerAlt /> GHS {restaurant.deliveryFee} delivery
+            </span>
+          </div>
         </div>
-      )}
-
-      <div className={styles.restaurantGrid}>
-        {filteredRestaurants.map((rest) => (
-          <div key={rest.id} className={styles.restaurantCard}>
-            <div className={styles.imageContainer}>
-              <img
-                src={rest.image}
-                alt={rest.name}
-                className={styles.restaurantImage}
-              />
-              {rest.location === "Tamale" && (
-                <span className={styles.localBadge}>Local Favorite</span>
-              )}
-            </div>
-            <div className={styles.content}>
-              <div className={styles.titleRow}>
-                <h3 className={styles.title}>{rest.name}</h3>
-                <span className={styles.locationTag}>{rest.location}</span>
-              </div>
-              <div className={styles.rating}>
-                <FaStar className={styles.starIcon} />
-                <span>{rest.rating}</span>
-                <span className={styles.dot}>•</span>
-                <span>{rest.deliveryTime} mins</span>
-              </div>
-              <p className={styles.cuisine}>{rest.cuisine}</p>
-              <p className={styles.description}>{rest.description}</p>
-              <p className={styles.deliveryFee}>
-                Delivery: GHS {rest.deliveryFee}
+      </div>
+      <div className={styles.description}>
+        <h2>About Us</h2>
+        <p>{restaurant.description}</p>
+        <p className={styles.address}>{restaurant.address}</p>
+      </div>
+      <h2 className={styles.menuTitle}>Our Menu</h2>
+      <div className={styles.menuList}>
+        {menu.map((item) => (
+          <div key={item._id} className={styles.menuItem}>
+            <div className={styles.menuItemInfo}>
+              <h3>{item.name}</h3>
+              <p className={styles.menuItemDescription}>{item.description}</p>
+              <p className={styles.menuItemPrice}>
+                GHS {item.price.toFixed(2)}
               </p>
-              <button
-                onClick={() => handleAddToCart(rest)}
-                className={styles.addButton}
-              >
-                <FaShoppingCart /> Order Now
-              </button>
             </div>
+            <button
+              onClick={() => handleAddToCart(item)}
+              className={styles.addButton}
+            >
+              <FaShoppingCart /> Add
+            </button>
           </div>
         ))}
       </div>
-
-      {filteredRestaurants.length === 0 && (
-        <p className={styles.noResults}>
-          No restaurants found in {selectedCity}.
-        </p>
-      )}
     </div>
   );
 }

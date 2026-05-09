@@ -13,6 +13,7 @@ export default function useGeolocation() {
       setLoading(false);
       return;
     }
+    
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
