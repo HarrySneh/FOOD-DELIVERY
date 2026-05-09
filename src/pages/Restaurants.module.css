@@ -1,0 +1,336 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.locationPrompt {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.locationPrompt svg {
+  font-size: 1.5rem;
+}
+
+.locationPrompt strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.locationPrompt p {
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.confirmButton, .changeButton {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.confirmButton {
+  background: white;
+  color: var(--primary);
+  border: none;
+}
+
+.changeButton {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.confirmButton:hover, .changeButton:hover {
+  transform: scale(1.05);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  color: var(--gray);
+  font-size: 1.125rem;
+}
+
+.citySelector {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cityButton {
+  padding: 0.625rem 1.25rem;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  color: var(--dark);
+}
+
+.cityButton:hover {
+  border-color: var(--primary);
+}
+
+.activeCity {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.nearbyBadge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--success);
+  color: white;
+  font-size: 0.6rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 1rem;
+}
+
+.cityHighlight {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.cityHighlight h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #92400e;
+}
+
+.cityHighlight p {
+  font-size: 0.875rem;
+  color: #b45309;
+}
+
+.filters {
+  margin-bottom: 2rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--border);
+  border-radius: 1rem;
+  font-size: 1rem;
+  background: var(--white);
+  color: var(--dark);
+  transition: all 0.2s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.restaurantGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.75rem;
+}
+
+.restaurantCard {
+  background: var(--white);
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.restaurantCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.imagePlaceholder {
+  height: 160px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.emojiImage {
+  font-size: 4rem;
+}
+
+.localBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+.content {
+  padding: 1.25rem;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.locationTag {
+  font-size: 0.7rem;
+  background: var(--background);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  color: var(--gray);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--gray);
+}
+
+.starIcon {
+  color: #fbbf24;
+}
+
+.dot {
+  margin: 0 0.25rem;
+}
+
+.cuisine {
+  color: var(--gray);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: 0.8rem;
+  color: var(--light-gray);
+  margin-bottom: 0.5rem;
+}
+
+.deliveryFee {
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.addButton {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
+}
+
+.addButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.noResults {
+  text-align: center;
+  color: var(--gray);
+  padding: 3rem;
+  font-size: 1.125rem;
+}
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .locationPrompt {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .citySelector {
+    gap: 0.5rem;
+  }
+  
+  .cityButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+/* Add/modify these styles */
+.imageContainer {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+.restaurantImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.restaurantCard:hover .restaurantImage {
+  transform: scale(1.05);
+}
+
+.localBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  z-index: 1;
+}
