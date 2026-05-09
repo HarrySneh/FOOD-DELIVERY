@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { RESTAURANT_IMAGES } from "../assets/images/imageConstants";
 import styles from "./Restaurants.module.css";
 
+// ---------- Sample data (unchanged) ----------
 const tamaleRestaurants = [
   {
     id: 1,
@@ -158,15 +159,20 @@ export default function Restaurants() {
     return matchesSearch && matchesCity;
   });
 
-  const handleAddToCart = (restaurantName: string) => {
+  // ✅ FIXED: addToCart now includes all required CartItem fields
+  const handleAddToCart = (restaurant: (typeof allRestaurants)[0]) => {
     addToCart({
       _id: `sample-${Date.now()}`,
-      name: `Sample Dish from ${restaurantName}`,
+      name: `Sample Dish from ${restaurant.name}`,
       price: 25,
       quantity: 1,
-      restaurantId: restaurantName,
+      restaurantId: restaurant.id.toString(),
+      restaurantName: restaurant.name,
+      description: `Delicious sample from ${restaurant.name}`,
+      category: "Main",
+      image: "",
     });
-    toast.success(`Added from ${restaurantName}!`);
+    toast.success(`Added sample item from ${restaurant.name}!`);
   };
 
   return (
@@ -255,7 +261,7 @@ export default function Restaurants() {
                 Delivery: GHS {rest.deliveryFee}
               </p>
               <button
-                onClick={() => handleAddToCart(rest.name)}
+                onClick={() => handleAddToCart(rest)}
                 className={styles.addButton}
               >
                 <FaShoppingCart /> Order Now
