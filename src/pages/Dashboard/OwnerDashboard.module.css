@@ -1,0 +1,114 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: var(--dark);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.statCard h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray);
+  margin-bottom: 0.5rem;
+}
+
+.statNumber {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.ordersList h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
+
+.emptyMessage {
+  text-align: center;
+  padding: 2rem;
+  color: var(--gray);
+  background: var(--white);
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+}
+
+.orderCard {
+  background: var(--white);
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.orderId {
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.orderStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.orderStatus.pending { background: #fef3c7; color: #92400e; }
+.orderStatus.confirmed { background: #dbeafe; color: #1e40af; }
+.orderStatus.preparing { background: #e0e7ff; color: #3730a3; }
+.orderStatus.ready_for_pickup { background: #d1fae5; color: #065f46; }
+.orderStatus.delivered { background: #d1fae5; color: #065f46; }
+
+.orderDetails p {
+  font-size: 0.875rem;
+  color: var(--gray);
+  margin-bottom: 0.25rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.actionButton {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 500;
+}

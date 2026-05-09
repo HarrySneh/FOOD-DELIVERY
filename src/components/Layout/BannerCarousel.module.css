@@ -1,0 +1,185 @@
+/* ========== CAROUSEL CONTAINER ========== */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  height: 400px;
+  margin: 0 auto;
+  border-radius: 0;
+  outline: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.carousel-track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+}
+
+/* ========== BANNER SLIDE STYLING ========== */
+.banner-slide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-slide::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.03) 0px,
+    rgba(255,255,255,0.03) 2px,
+    transparent 2px,
+    transparent 8px
+  );
+  pointer-events: none;
+}
+
+.banner-content {
+  max-width: 700px;
+  z-index: 2;
+}
+
+.banner-headline {
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0 0 0.2em;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.banner-subheadline {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 300;
+  margin: 0 0 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.9);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+.banner-description {
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 0 auto 1.8em;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+}
+
+.banner-website {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 10px 25px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+/* ========== ARROWS & INDICATORS ========== */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: none;
+  font-size: 2.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  backdrop-filter: blur(4px);
+}
+.carousel-arrow:hover {
+  background: rgba(255,255,255,0.3);
+}
+.carousel-arrow-left { left: 15px; }
+.carousel-arrow-right { right: 15px; }
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 3;
+}
+
+.carousel-indicator {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+.carousel-indicator.active {
+  background: #ff6a00;
+  border-color: #ff6a00;
+  transform: scale(1.2);
+}
+
+/* ========== FADE TRANSITION ========== */
+.carousel-fade .carousel-fade-stack {
+  position: relative;
+  height: 100%;
+}
+
+.carousel-fade .fade-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  pointer-events: none;
+}
+
+.carousel-fade .fade-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* empty state */
+.carousel.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #666;
+}
+.carousel-slide {
+  box-sizing: border-box;
+  padding: 0 5px;          /* optional spacing between slides */
+}
