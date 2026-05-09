@@ -4,33 +4,42 @@ export interface User {
   email: string;
   phone: string;
   role: "customer" | "owner" | "admin" | "driver";
+  city?: string;
   createdAt: string;
 }
 
 export interface Restaurant {
   _id: string;
   name: string;
-  description: string;
-  image: string;
+  description?: string;
+  image?: string;
   cuisine: string[];
   address: string;
-  location: { lat: number; lng: number };
+  location?: { lat: number; lng: number };
+  city: string;
   deliveryTime: number;
   deliveryFee: number;
+  minimumOrder?: number;
   rating?: number;
   ownerId: string;
-  approved?: boolean;
+  approved: boolean;
+  isOpen?: boolean;
+  phone?: string;
+  email?: string;
 }
 
 export interface MenuItem {
   _id: string;
   restaurantId: string;
-  restaurantName: string;
+  restaurantName: string; // required for cart
   name: string;
-  description: string;
+  description?: string;
   price: number;
   image?: string;
   category: string;
+  isAvailable?: boolean;
+  isPopular?: boolean;
+  preparationTime?: number;
 }
 
 export interface CartItem extends MenuItem {
@@ -39,19 +48,19 @@ export interface CartItem extends MenuItem {
 
 export interface Order {
   _id: string;
-  customer: { _id: string; name: string; email: string; phone: string };
-  restaurant: {
-    _id: string;
-    name: string;
-    location: { lat: number; lng: number };
-    address: string;
-  };
+  orderNumber: string;
+  customerId:
+    | string
+    | { _id: string; name: string; email: string; phone: string };
+  restaurantId:
+    | string
+    | { _id: string; name: string; address: string; image?: string };
   items: CartItem[];
+  subtotal: number;
+  deliveryFee: number;
+  tax: number;
   totalAmount: number;
-  deliveryAddress: {
-    text: string;
-    coordinates?: { lat: number; lng: number };
-  };
+  deliveryAddress: { text: string; coordinates?: { lat: number; lng: number } };
   status:
     | "pending"
     | "confirmed"
@@ -59,33 +68,26 @@ export interface Order {
     | "ready_for_pickup"
     | "assigned"
     | "picked_up"
-    | "delivered";
-  paymentMethod: "card" | "momo";
+    | "delivered"
+    | "cancelled";
+  paymentMethod: "card" | "momo" | "cash";
   paymentReference?: string;
-  driver?: {
-    _id: string;
-    name: string;
-    location: { lat: number; lng: number };
-  };
-  deliveryFee?: number;
+  paymentStatus: "pending" | "paid" | "failed" | "refunded";
+  driverId?: string;
+  specialInstructions?: string;
   createdAt: string;
+  deliveredAt?: string;
 }
 
 export interface CreateOrderData {
   items: CartItem[];
-  totalAmount: number;
   deliveryAddress: string;
-  paymentMethod: "card" | "momo";
+  paymentMethod: string;
+  totalAmount: number;
 }
 
 export interface PaystackInitializeResponse {
   status: boolean;
   message: string;
   data: { authorization_url: string; access_code: string; reference: string };
-}
-
-export interface PaymentVerificationResponse {
-  status: boolean;
-  message: string;
-  data: { status: string; reference: string; amount: number };
 }

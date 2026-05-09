@@ -41,23 +41,27 @@ export default function DriverDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchDriverData();
-    // Start location tracking (every 10 seconds)
-    const watchId = navigator.geolocation.watchPosition(
-      async (pos) => {
-        try {
-          await apiClient.put("/driver/location", {
-            lat: pos.coords.latitude,
-            lng: pos.coords.longitude,
-          });
-        } catch (error) {
-          console.error("Location update failed");
-        }
-      },
-      (err) => console.error(err),
-      { enableHighAccuracy: true, interval: 10000 },
-    );
-    return () => navigator.geolocation.clearWatch(watchId);
+    const updateLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            try {
+              await apiClient.put("/driver/location", {
+                lat: pos.coords.latitude,
+                lng: pos.coords.longitude,
+              });
+            } catch (error) {
+              console.error("Location update failed", error);
+            }
+          },
+          (err) => console.error(err),
+          { enableHighAccuracy: true },
+        );
+      }
+    };
+    const interval = setInterval(updateLocation, 10000);
+    updateLocation(); // initial call
+    return () => clearInterval(interval);
   }, []);
 
   const fetchDriverData = async () => {

@@ -1,6 +1,8 @@
-import apiClient from './client';
+import apiClient from "./client";
 
 export const paymentsApi = {
-  initiate: (orderId) => apiClient.post(`/payments/initiate/${orderId}`),
-  verify: (reference) => apiClient.get(`/payments/verify?reference=${reference}`),
+  initiate: (orderId: string) =>
+    apiClient.post(`/payments/initiate/${orderId}`),
+  verify: (reference: string) =>
+    apiClient.get(`/payments/verify?reference=${reference}`),
 };

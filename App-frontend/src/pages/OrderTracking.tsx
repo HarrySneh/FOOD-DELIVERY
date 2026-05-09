@@ -82,11 +82,21 @@ export default function OrderTracking() {
 
   const currentStepIndex = steps.findIndex((s) => s.key === order.status);
 
+  // Helper to get restaurant name safely
+  const restaurantName =
+    typeof order.restaurantId === "object"
+      ? order.restaurantId.name
+      : "Restaurant";
+  const restaurantAddress =
+    typeof order.restaurantId === "object" ? order.restaurantId.address : "";
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Track Your Order</h1>
-        <p className={styles.orderId}>Order #{order._id.slice(-8)}</p>
+        <p className={styles.orderId}>
+          Order #{order.orderNumber?.slice(-8) || order._id.slice(-8)}
+        </p>
       </div>
 
       <div className={styles.progressContainer}>
@@ -124,7 +134,7 @@ export default function OrderTracking() {
         <div className={styles.detailsGrid}>
           <div className={styles.detailCard}>
             <h3>Restaurant</h3>
-            <p>{order.restaurant?.name}</p>
+            <p>{restaurantName}</p>
           </div>
           <div className={styles.detailCard}>
             <h3>Delivery Address</h3>

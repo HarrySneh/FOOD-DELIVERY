@@ -33,19 +33,14 @@ export default function Checkout() {
 
     setLoading(true);
     try {
-      // 1. Create the order in the backend
+      // ✅ Send full cart items (no manual mapping)
       const { data: order } = await ordersApi.create({
-        items: cart.map((item) => ({
-          _id: item._id,
-          restaurantId: item.restaurantId,
-          quantity: item.quantity,
-        })),
+        items: cart,
         deliveryAddress: address,
         paymentMethod,
         totalAmount: finalTotal,
       });
 
-      // 2. Initiate Paystack payment (mock or real)
       await initializePayment(
         order._id,
         user?.email!,
@@ -57,7 +52,6 @@ export default function Checkout() {
             navigate(`/tracking/${order._id}`);
           } else {
             toast.error(`Payment failed: ${result}`);
-            // Optionally cancel the order
             try {
               await ordersApi.cancel(order._id);
             } catch (err) {

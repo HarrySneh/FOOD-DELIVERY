@@ -1,14 +1,6 @@
 import { createContext, ReactNode, useState } from "react";
+import { CartItem } from "../types";
 import { toast } from "react-toastify";
-
-export interface CartItem {
-  _id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  restaurantId?: string;
-  image?: string;
-}
 
 interface CartContextType {
   cart: CartItem[];
@@ -26,8 +18,8 @@ export const CartContext = createContext<CartContextType | undefined>(
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>(() => {
-    const savedCart = localStorage.getItem("cart");
-    return savedCart ? JSON.parse(savedCart) : [];
+    const saved = localStorage.getItem("cart");
+    return saved ? JSON.parse(saved) : [];
   });
 
   const saveCart = (newCart: CartItem[]) => {
@@ -63,11 +55,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const clearCart = () => saveCart([]);
 
-  const totalPrice = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
-  const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const itemCount = cart.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
     <CartContext.Provider

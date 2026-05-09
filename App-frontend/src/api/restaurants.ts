@@ -1,10 +1,15 @@
-import apiClient from './client';
+import apiClient from "./client";
+import { Restaurant, MenuItem } from "../types";
 
 export const restaurantsApi = {
-  getAll: (params) => apiClient.get('/restaurants', { params }),
-  getById: (id) => apiClient.get(`/restaurants/${id}`),
-  getMenu: (restaurantId) => apiClient.get(`/restaurants/${restaurantId}/menu`),
-  create: (data) => apiClient.post('/restaurants', data),
-  addMenuItem: (restaurantId, data) => apiClient.post(`/restaurants/${restaurantId}/menu`, data),
-  approve: (id) => apiClient.put(`/restaurants/${id}/approve`),
+  getAll: (params?: Record<string, any>) =>
+    apiClient.get<Restaurant[]>("/restaurants", { params }),
+  getById: (id: string) => apiClient.get<Restaurant>(`/restaurants/${id}`),
+  getMenu: (restaurantId: string) =>
+    apiClient.get<MenuItem[]>(`/restaurants/${restaurantId}/menu`),
+  create: (data: Partial<Restaurant>) =>
+    apiClient.post<Restaurant>("/restaurants", data),
+  addMenuItem: (restaurantId: string, data: Partial<MenuItem>) =>
+    apiClient.post<MenuItem>(`/restaurants/${restaurantId}/menu`, data),
+  approve: (id: string) => apiClient.put(`/restaurants/${id}/approve`),
 };
