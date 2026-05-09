@@ -36,7 +36,7 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/FOOD-DELIVERY">
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
