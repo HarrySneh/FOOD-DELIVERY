@@ -26,7 +26,13 @@ export const DISH_IMAGES = {
   freshVegetables: asset("assets/images/dishes/Avocado_Toast.jpg"),
   riceBag: asset("assets/images/dishes/Rice.png"),
 };
-
+export const GROCERY_IMAGES = {
+  freshVegetables:
+    "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=150&h=150&fit=crop",
+  riceBag:
+    "https://images.unsplash.com/photo-1586201375761-83865001e8e6?w=150&h=150&fit=crop",
+  // ... other images
+};
 export const ICON_IMAGES = {
   appStore: asset("assets/images/icons/app-store.png"),
   playStore: asset("assets/images/icons/play-store.png"),

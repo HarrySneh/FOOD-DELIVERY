@@ -4,13 +4,14 @@ import { useCart } from "../hooks/useCart";
 import {
   FaMotorcycle,
   FaUtensils,
+  FaStore,
   FaShieldAlt,
   FaStar,
   FaArrowRight,
   FaChevronRight,
   FaGift,
   FaWhatsapp,
-  FaStore,
+  FaClock,
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import {
@@ -27,20 +28,23 @@ export default function Home() {
 
   const slides = [
     {
-      title: "Delicious Food & Fresh Groceries",
+      title: "Food & Grocery Delivered to Tamale",
       subtitle:
-        "Now delivering to Tamale! Order from the best restaurants and shops",
+        "Order from the best restaurants and grocery stores in Northern Ghana",
       image: HERO_IMAGES[0],
+      cta: "/restaurants",
+    },
+    {
+      title: "Fresh Groceries, Same Day Delivery",
+      subtitle: "Get your daily essentials delivered to your doorstep",
+      image: HERO_IMAGES[1],
+      cta: "/groceries",
     },
     {
       title: "Support Local Businesses",
-      subtitle: "Discover authentic Ghanaian cuisine and fresh produce",
-      image: HERO_IMAGES[1],
-    },
-    {
-      title: "Special Discounts Every Day",
-      subtitle: "Save up to 30% on your first order",
+      subtitle: "Discover authentic Tamale cuisine and fresh produce",
       image: HERO_IMAGES[2],
+      cta: "/restaurants",
     },
   ];
 
@@ -61,14 +65,14 @@ export default function Home() {
     },
     {
       icon: <FaUtensils />,
-      title: "Top Restaurants",
+      title: "Local Restaurants",
       description: "200+ local restaurants partnered",
       color: "#ea580c",
     },
     {
       icon: <FaStore />,
       title: "Grocery Stores",
-      description: "Fresh produce and everyday essentials",
+      description: "Fresh produce & everyday essentials",
       color: "#10b981",
     },
     {
@@ -79,14 +83,14 @@ export default function Home() {
     },
   ];
 
-  const popularItems = [
+  const popularFoods = [
     {
       name: "Jollof Rice",
       price: "GHS 25",
       image: DISH_IMAGES.jollofRice,
       orders: 1234,
       rating: 4.8,
-      type: "food",
+      link: "/restaurants",
     },
     {
       name: "Banku & Tilapia",
@@ -94,7 +98,7 @@ export default function Home() {
       image: DISH_IMAGES.bankuTilapia,
       orders: 892,
       rating: 4.9,
-      type: "food",
+      link: "/restaurants",
     },
     {
       name: "Waakye",
@@ -102,7 +106,7 @@ export default function Home() {
       image: DISH_IMAGES.waakye,
       orders: 756,
       rating: 4.7,
-      type: "food",
+      link: "/restaurants",
     },
     {
       name: "Tuo Zaafi",
@@ -110,15 +114,18 @@ export default function Home() {
       image: DISH_IMAGES.tuoZaafi,
       orders: 654,
       rating: 4.8,
-      type: "food",
+      link: "/restaurants",
     },
+  ];
+
+  const popularGroceries = [
     {
       name: "Fresh Vegetables",
       price: "GHS 15",
       image: DISH_IMAGES.freshVegetables,
       orders: 543,
       rating: 4.8,
-      type: "grocery",
+      link: "/groceries",
     },
     {
       name: "Rice (5kg)",
@@ -126,7 +133,7 @@ export default function Home() {
       image: DISH_IMAGES.riceBag,
       orders: 432,
       rating: 4.6,
-      type: "grocery",
+      link: "/groceries",
     },
   ];
 
@@ -135,7 +142,7 @@ export default function Home() {
       name: "Akua Mensah",
       location: "Tamale",
       rating: 5,
-      text: "Best delivery service in Ghana! The food arrived hot and on time. Love TamaEat!",
+      text: "Best delivery service in Tamale! Food arrived hot and groceries were fresh.",
       avatar: "https://randomuser.me/api/portraits/women/1.jpg",
       date: "2 days ago",
     },
@@ -143,7 +150,7 @@ export default function Home() {
       name: "Kwame Asante",
       location: "Tamale",
       rating: 5,
-      text: "Love the variety. Being able to order both food and groceries from one app is amazing!",
+      text: "Love ordering both food and groceries from one app. So convenient!",
       avatar: "https://randomuser.me/api/portraits/men/1.jpg",
       date: "5 days ago",
     },
@@ -151,16 +158,16 @@ export default function Home() {
       name: "Esi Boateng",
       location: "Tamale",
       rating: 4,
-      text: "Great service, quick delivery. The grocery section is a game changer!",
+      text: "Great service and quick delivery. Highly recommend the grocery section.",
       avatar: "https://randomuser.me/api/portraits/women/2.jpg",
       date: "1 week ago",
     },
   ];
 
   const stats = [
-    { number: "300+", label: "Partners", icon: <FaUtensils /> },
-    { number: "500+", label: "Drivers", icon: <FaMotorcycle /> },
-    { number: "50K+", label: "Customers", icon: <FaStar /> },
+    { number: "100+", label: "Local Partners", icon: <FaStore /> },
+    { number: "200+", label: "Delivery Riders", icon: <FaMotorcycle /> },
+    { number: "10K+", label: "Happy Customers", icon: <FaStar /> },
     { number: "98%", label: "Satisfaction", icon: <FaShieldAlt /> },
   ];
 
@@ -172,6 +179,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      {/* Hero Carousel */}
       <div className={styles.heroCarousel}>
         <div className={styles.slide}>
           <img
@@ -195,12 +203,10 @@ export default function Home() {
               )}
               <div className={styles.ctaButtons}>
                 <Link to="/restaurants" className={styles.ctaButton}>
-                  <FaUtensils /> Order Food{" "}
-                  <FaArrowRight className={styles.arrowIcon} />
+                  <FaUtensils /> Order Food <FaArrowRight />
                 </Link>
                 <Link to="/groceries" className={styles.ctaButtonSecondary}>
-                  <FaStore /> Shop Groceries{" "}
-                  <FaArrowRight className={styles.arrowIcon} />
+                  <FaStore /> Shop Groceries <FaArrowRight />
                 </Link>
               </div>
             </div>
@@ -217,15 +223,17 @@ export default function Home() {
         </div>
       </div>
 
+      {/* WhatsApp Float */}
       <button onClick={openWhatsApp} className={styles.whatsappFloat}>
         <FaWhatsapp />
         <span>Chat with us</span>
       </button>
 
+      {/* Stats */}
       <div className={styles.statsSection}>
         <div className={styles.statsGrid}>
-          {stats.map((stat, index) => (
-            <div key={index} className={styles.statCard}>
+          {stats.map((stat, idx) => (
+            <div key={idx} className={styles.statCard}>
               <div className={styles.statIcon}>{stat.icon}</div>
               <h3>{stat.number}</h3>
               <p>{stat.label}</p>
@@ -234,14 +242,15 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Features */}
       <div className={styles.featuresSection}>
         <h2>Why Choose TamaEat?</h2>
         <p className={styles.sectionSubtitle}>
           We make food and grocery delivery easy, fast, and reliable
         </p>
         <div className={styles.featuresGrid}>
-          {features.map((feature, index) => (
-            <div key={index} className={styles.featureCard}>
+          {features.map((feature, idx) => (
+            <div key={idx} className={styles.featureCard}>
               <div
                 className={styles.featureIcon}
                 style={{ backgroundColor: feature.color }}
@@ -255,83 +264,69 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.tamaleSection}>
-        <div className={styles.tamaleContent}>
-          <h2>🇬🇭 Now Serving Tamale!</h2>
-          <p>
-            Discover authentic Northern Ghanaian cuisine delivered to your
-            doorstep
-          </p>
-          <div className={styles.tamaleFeatures}>
-            <span>🍲 Tuo Zaafi</span>
-            <span>🍚 Wasawasa</span>
-            <span>🥩 Kinkheba</span>
-            <span>🌶️ Ayoyo Soup</span>
-          </div>
-          <Link to="/restaurants" className={styles.tamaleButton}>
-            Explore Tamale Restaurants →
-          </Link>
-        </div>
-      </div>
-
-      <div className={styles.categorySection}>
-        <h2>What would you like today?</h2>
-        <p className={styles.sectionSubtitle}>Choose from food or groceries</p>
-        <div className={styles.categoryGrid}>
-          <Link to="/restaurants" className={styles.categoryCard}>
-            <div className={styles.categoryIcon}>🍕</div>
-            <h3>Food Delivery</h3>
-            <p>Order from 200+ restaurants</p>
-            <span className={styles.categoryLink}>Explore →</span>
-          </Link>
-          <Link to="/groceries" className={styles.categoryCard}>
-            <div className={styles.categoryIcon}>🛒</div>
-            <h3>Grocery Delivery</h3>
-            <p>Fresh produce & essentials</p>
-            <span className={styles.categoryLink}>Coming Soon →</span>
-          </Link>
-        </div>
-      </div>
-
+      {/* Popular Food Items */}
       <div className={styles.popularSection}>
-        <h2>Popular Items in Ghana</h2>
-        <p className={styles.sectionSubtitle}>
-          Most loved items by our customers
-        </p>
-        <div className={styles.dishesGrid}>
-          {popularItems.map((item, index) => (
-            <div key={index} className={styles.dishCard}>
+        <div className={styles.sectionHeader}>
+          <h2>Popular Food in Tamale</h2>
+          <Link to="/restaurants" className={styles.viewAll}>
+            View all <FaChevronRight />
+          </Link>
+        </div>
+        <div className={styles.itemsGrid}>
+          {popularFoods.map((item, idx) => (
+            <Link key={idx} to={item.link} className={styles.itemCard}>
               <img
                 src={item.image}
                 alt={item.name}
-                className={styles.dishImage}
+                className={styles.itemImage}
               />
-              <div className={styles.dishInfo}>
+              <div className={styles.itemInfo}>
                 <h3>{item.name}</h3>
-                <div className={styles.dishRating}>
-                  <FaStar className={styles.starIcon} />
-                  <span>{item.rating}</span>
-                  <span className={styles.dishOrders}>
-                    ({item.orders} orders)
-                  </span>
+                <div className={styles.itemRating}>
+                  <FaStar className={styles.starIcon} /> {item.rating} (
+                  {item.orders}+)
                 </div>
-                <p className={styles.dishPrice}>{item.price}</p>
-                <Link
-                  to={item.type === "food" ? "/restaurants" : "/groceries"}
-                  className={styles.orderLink}
-                >
-                  Order Now <FaChevronRight />
-                </Link>
+                <p className={styles.itemPrice}>{item.price}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
 
+      {/* Popular Grocery Items */}
+      <div className={styles.popularSection}>
+        <div className={styles.sectionHeader}>
+          <h2>Popular Groceries</h2>
+          <Link to="/groceries" className={styles.viewAll}>
+            View all <FaChevronRight />
+          </Link>
+        </div>
+        <div className={styles.itemsGrid}>
+          {popularGroceries.map((item, idx) => (
+            <Link key={idx} to={item.link} className={styles.itemCard}>
+              <img
+                src={item.image}
+                alt={item.name}
+                className={styles.itemImage}
+              />
+              <div className={styles.itemInfo}>
+                <h3>{item.name}</h3>
+                <div className={styles.itemRating}>
+                  <FaStar className={styles.starIcon} /> {item.rating} (
+                  {item.orders}+)
+                </div>
+                <p className={styles.itemPrice}>{item.price}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* How It Works */}
       <div className={styles.howItWorks}>
         <h2>How TamaEat Works</h2>
         <p className={styles.sectionSubtitle}>
-          Get your favorite items in 3 simple steps
+          Get your items in 3 simple steps
         </p>
         <div className={styles.stepsGrid}>
           <div className={styles.stepCard}>
@@ -339,34 +334,35 @@ export default function Home() {
             <img
               src={ICON_IMAGES.step1}
               alt="Choose"
-              className={styles.stepIconImage}
+              className={styles.stepIcon}
             />
-            <h3>Choose Item</h3>
-            <p>Browse from restaurants or grocery stores</p>
+            <h3>Choose</h3>
+            <p>Browse restaurants or grocery stores</p>
           </div>
           <div className={styles.stepCard}>
             <div className={styles.stepNumber}>2</div>
             <img
               src={ICON_IMAGES.step2}
-              alt="Select"
-              className={styles.stepIconImage}
+              alt="Order"
+              className={styles.stepIcon}
             />
-            <h3>Place Order</h3>
-            <p>Add to cart and checkout securely</p>
+            <h3>Order</h3>
+            <p>Add items to cart and checkout</p>
           </div>
           <div className={styles.stepCard}>
             <div className={styles.stepNumber}>3</div>
             <img
               src={ICON_IMAGES.step3}
-              alt="Deliver"
-              className={styles.stepIconImage}
+              alt="Enjoy"
+              className={styles.stepIcon}
             />
-            <h3>Fast Delivery</h3>
-            <p>Get it delivered to your doorstep</p>
+            <h3>Enjoy</h3>
+            <p>Get your delivery in minutes</p>
           </div>
         </div>
       </div>
 
+      {/* Offer Banner */}
       <div className={styles.offerBanner}>
         <div className={styles.offerContent}>
           <FaGift className={styles.offerIcon} />
@@ -383,25 +379,24 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Testimonials */}
       <div className={styles.testimonialsSection}>
         <h2>What Our Customers Say</h2>
         <p className={styles.sectionSubtitle}>
-          Join thousands of happy customers
+          Join thousands of happy customers in Tamale
         </p>
         <div className={styles.testimonialsGrid}>
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className={styles.testimonialCard}>
+          {testimonials.map((t, idx) => (
+            <div key={idx} className={styles.testimonialCard}>
               <div className={styles.testimonialHeader}>
                 <img
-                  src={testimonial.avatar}
-                  alt={testimonial.name}
+                  src={t.avatar}
+                  alt={t.name}
                   className={styles.testimonialAvatar}
                 />
                 <div>
-                  <h4>{testimonial.name}</h4>
-                  <p className={styles.testimonialLocation}>
-                    {testimonial.location}
-                  </p>
+                  <h4>{t.name}</h4>
+                  <p className={styles.testimonialLocation}>{t.location}</p>
                 </div>
               </div>
               <div className={styles.testimonialStars}>
@@ -409,54 +404,38 @@ export default function Home() {
                   <FaStar
                     key={i}
                     className={
-                      i < testimonial.rating
-                        ? styles.starFilled
-                        : styles.starEmpty
+                      i < t.rating ? styles.starFilled : styles.starEmpty
                     }
                   />
                 ))}
               </div>
-              <p className={styles.testimonialText}>"{testimonial.text}"</p>
-              <p className={styles.testimonialDate}>{testimonial.date}</p>
+              <p className={styles.testimonialText}>"{t.text}"</p>
+              <p className={styles.testimonialDate}>{t.date}</p>
             </div>
           ))}
         </div>
-        <Link to="/about" className={styles.viewAllLink}>
-          View All Reviews <FaChevronRight />
-        </Link>
       </div>
 
+      {/* Download App */}
       <div className={styles.downloadSection}>
         <div className={styles.downloadContent}>
           <div className={styles.downloadText}>
             <h2>Download TamaEat App</h2>
-            <p>
-              Get the best food and grocery delivery experience with our mobile
-              app
-            </p>
+            <p>Get the best delivery experience with our mobile app</p>
             <div className={styles.appButtons}>
               <button className={styles.appStoreButton}>
-                <img
-                  src={ICON_IMAGES.appStore}
-                  alt="App Store"
-                  className={styles.appIcon}
-                />{" "}
-                App Store
+                <img src={ICON_IMAGES.appStore} alt="App Store" /> App Store
               </button>
               <button className={styles.playStoreButton}>
-                <img
-                  src={ICON_IMAGES.playStore}
-                  alt="Google Play"
-                  className={styles.appIcon}
-                />{" "}
-                Google Play
+                <img src={ICON_IMAGES.playStore} alt="Google Play" /> Google
+                Play
               </button>
             </div>
           </div>
           <div className={styles.downloadImage}>
             <img
               src={ICON_IMAGES.phoneMockup}
-              alt="App"
+              alt="Mobile App"
               className={styles.appImage}
             />
           </div>

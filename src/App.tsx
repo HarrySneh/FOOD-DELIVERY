@@ -24,6 +24,7 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./hooks/useAuth";
 import Loader from "./components/Loader";
+import GroceryDetail from "./pages/GroceryDetail";
 
 function App() {
   const { user, loading } = useAuth();
@@ -121,6 +122,8 @@ function App() {
           <Route path="terms-of-use" element={<TermsOfUse />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="groceries" element={<Groceries />} />
+          <Route path="grocery/:id" element={<GroceryDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>
