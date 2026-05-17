@@ -16,14 +16,20 @@ export default function Login() {
     setLoading(true);
     try {
       await login(email, password);
-      navigate("/");
+      // Wait a moment for localStorage to be updated (fixes timing issues)
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      console.log("User after login:", user); // Check console to see if role is present
+      if (user.role === "admin") navigate("/admin-dashboard");
+      else if (user.role === "owner") navigate("/owner-dashboard");
+      else if (user.role === "driver") navigate("/driver-dashboard");
+      else navigate("/");
     } catch (error) {
-      // Error already handled in auth context
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className={styles.container}>
       <div className={styles.card}>

@@ -24,19 +24,14 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./hooks/useAuth";
 import Loader from "./components/Loader";
-import GroceryDetail from "./pages/GroceryDetail";
 
 function App() {
   const { user, loading } = useAuth();
-  const basename = import.meta.env.BASE_URL; // resolves to '/FOOD-DELIVERY/' on GitHub Pages
 
   if (loading) return <Loader />;
 
   return (
-    <BrowserRouter
-      basename={basename}
-      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-    >
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -122,8 +117,6 @@ function App() {
           <Route path="terms-of-use" element={<TermsOfUse />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="groceries" element={<Groceries />} />
-          <Route path="grocery/:id" element={<GroceryDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

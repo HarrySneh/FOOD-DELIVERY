@@ -4,14 +4,13 @@ import { useCart } from "../hooks/useCart";
 import {
   FaMotorcycle,
   FaUtensils,
-  FaStore,
   FaShieldAlt,
   FaStar,
   FaArrowRight,
   FaChevronRight,
   FaGift,
   FaWhatsapp,
-  FaClock,
+  FaStore,
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import {

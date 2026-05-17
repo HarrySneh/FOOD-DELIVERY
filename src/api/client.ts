@@ -1,7 +1,11 @@
 import axios from "axios";
 
+// const apiClient = axios.create({
+//   baseURL: import.meta.env.VITE_API_URL,
+//   headers: { "Content-Type": "application/json" },
+// });
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: "/api", // relative, will be proxied
   headers: { "Content-Type": "application/json" },
 });
 

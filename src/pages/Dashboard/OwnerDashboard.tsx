@@ -26,12 +26,9 @@ export default function OwnerDashboard() {
   const { user } = useAuth();
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
-  const [stats, setStats] = useState({
-    totalOrders: 0,
-    totalRevenue: 0,
-    pendingOrders: 0,
-  });
+  const [stats, setStats] = useState({totalOrders: 0,totalRevenue: 0,pendingOrders: 0,});
   const [loading, setLoading] = useState(true);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useEffect(() => {
     fetchOwnerData();
@@ -88,6 +85,17 @@ export default function OwnerDashboard() {
     }
   };
 
+  const handleUpload = async () => {
+    if (!selectedFile || !restaurant) return;
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    await apiClient.post(`/restaurants/${restaurant._id}/upload`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    toast.success("Image uploaded");
+    fetchOwnerData(); // refresh
+  };
+
   const markReady = async (orderId: string) => {
     try {
       await apiClient.put(`/orders/${orderId}/ready`);
@@ -127,6 +135,12 @@ export default function OwnerDashboard() {
           Status: {restaurant.approved ? "✅ Approved" : "⏳ Pending Approval"}
         </p>
       </div>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+      />
+      <button onClick={handleUpload}>Upload Image</button>
 
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>

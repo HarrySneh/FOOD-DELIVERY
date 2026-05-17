@@ -1,7 +1,15 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import { authApi } from "../api/auth";
 import { toast } from "react-toastify";
-import { User } from "../types";
+
+interface User {
+  _id?: string;
+  name: string;
+  email: string;
+  phone?: string;
+  role: string;
+  city?: string;
+}
 
 interface AuthContextType {
   user: User | null;
@@ -16,7 +24,10 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const saved = localStorage.getItem("user");
+    return saved ? JSON.parse(saved) : null;
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         .catch(() => {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
+          setUser(null);
         })
         .finally(() => setLoading(false));
     } else {

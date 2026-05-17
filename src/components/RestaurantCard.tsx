@@ -11,9 +11,8 @@ export default function RestaurantCard({ restaurant }: Props) {
   return (
     <Link to={`/restaurant/${restaurant._id}`} className={styles.card}>
       <img
-        src={restaurant.image || "https://via.placeholder.com/300x200"}
+        src={restaurant.image || "/default-placeholder.jpg"}
         alt={restaurant.name}
-        className={styles.image}
       />
       <div className={styles.content}>
         <h3 className={styles.title}>{restaurant.name}</h3>

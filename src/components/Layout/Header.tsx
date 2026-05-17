@@ -28,6 +28,7 @@ export default function Header() {
     navigate("/");
     setIsDropdownOpen(false);
   };
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const openWhatsApp = () => {
     window.open(
@@ -56,6 +57,16 @@ export default function Header() {
           <Link to="/about" className={styles.navLink}>
             About
           </Link>
+          <button
+            className={styles.menuButton}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
+
+          <div className={`${styles.navLinks} ${menuOpen ? styles.open : ""}`}>
+           
+          </div>
 
           <button
             onClick={openWhatsApp}
