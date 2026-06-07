@@ -1,24 +1,27 @@
 import axios from "axios";
 
-// const apiClient = axios.create({
-//   baseURL: import.meta.env.VITE_API_URL,
-//   headers: { "Content-Type": "application/json" },
-// });
 const apiClient = axios.create({
-  baseURL: "/api", // relative, will be proxied
+  baseURL: "http://localhost:5000/api", // ← backend URL
   headers: { "Content-Type": "application/json" },
 });
 
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+// Add token to every request
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
 
+// Handle 401 – token expired
 apiClient.interceptors.response.use(
-  (res) => res,
-  (error) => {
-    if (error.response?.status === 401) {
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401 && !error.config._retry) {
+      error.config._retry = true;
+      // optional: refresh token logic
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       window.location.href = "/login";
