@@ -1,129 +1,95 @@
 .container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
-  background: var(--background);
-  min-height: calc(100vh - 80px);
+  padding: 1rem;
 }
 
 /* Hero Section */
 .hero {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-radius: 1.5rem;
   padding: 2rem;
-  border-radius: 0 0 2rem 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  color: white;
 }
-
 .heroContent {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
   flex-wrap: wrap;
 }
-
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
 .avatarWrapper {
   position: relative;
+  width: 100px;
+  height: 100px;
 }
-
-.avatar {
-  width: 80px;
-  height: 80px;
+.avatarWrapper img {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+  object-fit: cover;
   border: 3px solid white;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-
-.editAvatarBtn {
+.cameraBtn {
   position: absolute;
   bottom: 0;
   right: 0;
   background: var(--primary-dark);
-  border: none;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: white;
-  transition: all 0.2s;
+  border: 2px solid white;
 }
-
-.editAvatarBtn:hover {
-  transform: scale(1.1);
-}
-
-.userInfo h1 {
-  color: white;
-  font-size: 1.5rem;
-  margin: 0 0 0.25rem;
-}
-
-.userEmail {
-  color: rgba(255,255,255,0.9);
-  font-size: 0.875rem;
-  margin: 0 0 0.5rem;
-}
-
-.userRole {
-  display: inline-block;
-  background: rgba(255,255,255,0.2);
+.saveAvatarBtn {
+  background: white;
+  color: var(--primary);
+  border: none;
   padding: 0.25rem 0.75rem;
-  border-radius: 2rem;
-  font-size: 0.75rem;
-  color: white;
-  text-transform: capitalize;
+  border-radius: 1rem;
+  font-size: 0.7rem;
+  cursor: pointer;
 }
+.userInfo h1 { margin: 0; font-size: 1.8rem; }
+.userInfo p { margin: 0.25rem 0; opacity: 0.9; }
+.roleBadge { background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.7rem; text-transform: capitalize; }
 
 /* Stats Cards */
 .statsGrid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
-  padding: 0 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
-
 .statCard {
-  flex: 1;
   background: var(--white);
   border-radius: 1rem;
   padding: 1rem;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  gap: 1rem;
   border: 1px solid var(--border);
 }
-
-.statIcon {
-  font-size: 1.5rem;
-  color: var(--primary);
-}
-
-.statValue {
-  font-weight: 700;
-  font-size: 1.125rem;
-  color: var(--dark);
-  margin: 0 0 0.2rem;
-}
-
-.statLabel {
-  font-size: 0.7rem;
-  color: var(--gray);
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+.statCard svg { font-size: 2rem; color: var(--primary); }
+.statValue { font-size: 1.25rem; font-weight: 700; margin: 0; }
 
 /* Tabs */
 .tabs {
   display: flex;
   gap: 0.5rem;
-  padding: 0 1rem;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
 }
-
 .tab {
   padding: 0.75rem 1rem;
   background: none;
@@ -131,49 +97,18 @@
   font-weight: 600;
   color: var(--gray);
   cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
+  white-space: nowrap;
 }
+.activeTab { color: var(--primary); border-bottom: 2px solid var(--primary); }
 
-.activeTab {
-  color: var(--primary);
-}
-
-.activeTab::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--primary);
-}
-
-/* Tab Content */
-.tabContent {
-  padding: 1rem;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.infoSection {
+/* Profile Info */
+.infoCard {
   background: var(--white);
   border-radius: 1rem;
   padding: 1.5rem;
-  margin-bottom: 1rem;
   border: 1px solid var(--border);
 }
-
-.infoSection h3 {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: var(--dark);
-}
-
+.infoCard h3 { margin-top: 0; }
 .infoRow {
   display: flex;
   align-items: center;
@@ -181,249 +116,110 @@
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--border);
 }
+.infoRow svg { color: var(--primary); width: 20px; }
+.infoRow div { flex: 1; }
+.infoRow label { font-size: 0.7rem; color: var(--gray); display: block; }
+.infoRow p { margin: 0; font-weight: 500; }
+.infoRow input { width: 100%; padding: 0.25rem; border: 1px solid var(--border); border-radius: 0.5rem; }
+.infoRow button { background: none; border: none; cursor: pointer; color: var(--gray); }
+.readonly { font-size: 0.7rem; color: var(--gray); }
 
-.infoRow:last-child {
-  border-bottom: none;
-}
-
-.infoIcon {
-  font-size: 1rem;
-  color: var(--primary);
-}
-
-.infoRow label {
-  font-size: 0.7rem;
-  color: var(--gray);
-  display: block;
-  margin-bottom: 0.2rem;
-}
-
-.infoRow p {
-  font-size: 0.875rem;
-  color: var(--dark);
-  font-weight: 500;
-}
-
-/* Action Buttons */
-.actionButtons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.editProfileBtn,
-.logoutBtn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.editProfileBtn {
-  background: var(--primary);
-  color: white;
-  border: none;
-}
-
-.editProfileBtn:hover {
-  background: var(--primary-dark);
-}
-
-.logoutBtn {
-  background: transparent;
-  border: 1px solid var(--danger);
-  color: var(--danger);
-}
-
-.logoutBtn:hover {
-  background: var(--danger);
-  color: white;
-}
-
-/* Address & Payment Cards */
-.addressesHeader {
+/* Addresses & Payment */
+.sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
-
 .addButton {
-  background: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  font-size: 0.75rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
 }
-
-.addButton:hover {
-  background: var(--primary);
-  color: white;
-}
-
 .addressCard {
   background: var(--white);
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   padding: 1rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
   border: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
-
-.addressLabel {
-  font-weight: 600;
-  color: var(--dark);
-  margin-bottom: 0.25rem;
-}
-
-.addressText {
-  font-size: 0.75rem;
-  color: var(--gray);
-  margin-bottom: 0.5rem;
-}
-
+.addressCard strong { display: block; margin-bottom: 0.25rem; }
+.addressCard p { margin: 0; font-size: 0.875rem; color: var(--gray); }
 .defaultBadge {
   background: var(--success);
   color: white;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   padding: 0.2rem 0.5rem;
   border-radius: 1rem;
+  margin-left: 0.5rem;
 }
-
-.addressActions {
-  display: flex;
-  gap: 0.75rem;
-  color: var(--gray);
+.cardActions { display: flex; gap: 0.5rem; }
+.cardActions button {
+  background: none;
+  border: none;
   cursor: pointer;
+  color: var(--gray);
 }
+.cardActions button:hover { color: var(--danger); }
 
-.addressActions svg:hover {
-  color: var(--primary);
+/* Modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 400px;
+  z-index: 1000;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
+.modal input, .modal select { width: 100%; margin: 0.5rem 0; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.5rem; }
+.modalActions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem; }
 
 /* Settings */
 .settingRow {
-  background: var(--white);
-  border-radius: 0.75rem;
-  padding: 1rem;
-  margin-bottom: 0.75rem;
-  border: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem;
+  background: var(--white);
+  border-radius: 1rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--border);
 }
-
-.settingInfo {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.settingIcon {
-  color: var(--primary);
-  font-size: 1.25rem;
-}
-
-.settingInfo label {
-  font-weight: 600;
-  color: var(--dark);
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.settingInfo p {
-  font-size: 0.7rem;
-  color: var(--gray);
-  margin: 0;
-}
-
-.changeButton {
-  background: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  padding: 0.3rem 0.75rem;
-  border-radius: 0.5rem;
-  font-size: 0.7rem;
-  cursor: pointer;
-}
+.settingRow svg { color: var(--primary); font-size: 1.25rem; }
+.settingRow div { flex: 1; margin-left: 1rem; }
+.settingRow label { font-weight: 600; display: block; }
+.settingRow p { font-size: 0.7rem; color: var(--gray); margin: 0; }
+.changeBtn, .logoutBtn { background: none; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 0.5rem; cursor: pointer; }
+.logoutBtn { border-color: var(--danger); color: var(--danger); }
 
 /* Toggle Switch */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 44px;
-  height: 24px;
-}
+.switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.3s; border-radius: 24px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--primary); }
+input:checked + .slider:before { transform: translateX(20px); }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+.loader { text-align: center; padding: 2rem; }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.3s;
-  border-radius: 24px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.3s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: var(--primary);
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .heroContent {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .statsGrid {
-    flex-direction: column;
-  }
-
-  .tabs {
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .actionButtons {
-    flex-direction: column;
-  }
+@media (max-width: 768px) {
+  .heroContent { flex-direction: column; text-align: center; }
+  .statsGrid { grid-template-columns: 1fr; }
+  .addressCard { flex-direction: column; align-items: flex-start; }
 }

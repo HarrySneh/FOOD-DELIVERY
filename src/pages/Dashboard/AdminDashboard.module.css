@@ -1,147 +1,348 @@
+/* Same layout as OwnerDashboard – reuse most styles, add admin-specific */
+
 .container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 1.5rem;
+  display: flex;
+  min-height: 100vh;
+  background: var(--background);
 }
 
-.title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: var(--dark);
-}
-
-.loader {
-  text-align: center;
-  padding: 2rem;
-  color: var(--gray);
-}
-
-.noRestaurant {
-  text-align: center;
-  padding: 3rem;
+.sidebar {
+  width: 280px;
   background: var(--white);
-  border-radius: 1rem;
-  border: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  transition: transform 0.3s ease;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  overflow-y: auto;
 }
 
-.noRestaurantIcon {
-  font-size: 4rem;
-  color: var(--primary);
-  margin-bottom: 1rem;
+.sidebarOpen { transform: translateX(0); }
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebarOpen { transform: translateX(0); }
 }
 
-.createButton {
-  margin-top: 1rem;
-  background: var(--primary);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
+.sidebarHeader, .adminInfo { padding: 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; }
+.adminIcon { font-size: 2rem; color: var(--primary); }
+.adminInfo h3 { margin: 0; font-size: 1rem; }
+.adminInfo span { font-size: 0.7rem; color: var(--gray); }
 
-.restaurantInfo {
-  background: var(--white);
-  padding: 1rem;
-  border-radius: 1rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid var(--border);
-}
+.sidebarNav { display: flex; flex-direction: column; gap: 0.25rem; padding: 1rem 0; }
+.navItem { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: none; border: none; width: calc(100% - 1rem); margin: 0 0.5rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.875rem; text-align: left; }
+.navItem:hover { background: var(--background); }
+.activeNav { background: var(--primary); color: white; }
+
+.settingsGroup { margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.75rem; }
+.settingsGroup p { font-size: 0.7rem; padding: 0.5rem 1rem; color: var(--gray); text-transform: uppercase; }
+
+.mainContent { flex: 1; margin-left: 280px; padding: 1rem; }
+@media (max-width: 768px) { .mainContent { margin-left: 0; } }
+
+.topBar { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; margin-bottom: 1rem; }
+.hamburger { background: none; border: none; font-size: 1.5rem; cursor: pointer; display: none; }
+@media (max-width: 768px) { .hamburger { display: block; } }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
 }
-
 .statCard {
   background: var(--white);
   padding: 1rem;
   border-radius: 1rem;
   border: 1px solid var(--border);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
+.statIcon { font-size: 2rem; color: var(--primary); }
+.statValue { font-size: 1.5rem; font-weight: 700; margin: 0; }
+.statLabel { font-size: 0.75rem; color: var(--gray); margin: 0; }
 
-.statIcon {
-  font-size: 1.5rem;
-  color: var(--primary);
-}
+.twoColumn { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+@media (max-width: 768px) { .twoColumn { grid-template-columns: 1fr; } }
 
-.statCard h3 {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--gray);
-  margin: 0.5rem 0;
-}
-
-.statValue {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--dark);
-}
-
-.ordersSection h2 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.orderCard {
+.pendingCard, .recentOrders, .quickActions {
   background: var(--white);
   border-radius: 1rem;
   border: 1px solid var(--border);
   padding: 1rem;
   margin-bottom: 1rem;
 }
+.pendingCard h3, .recentOrders h3 { margin: 0 0 0.75rem 0; }
 
-.orderHeader {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
-}
+.tableWrapper { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+.subtext { font-size: 0.7rem; color: var(--gray); }
+.approveBtn, .verifyBtn { background: var(--success); color: white; border: none; padding: 0.3rem 0.75rem; border-radius: 1rem; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem; }
 
-.orderNumber {
-  font-weight: 700;
-}
+.ordersTable { width: 100%; border-collapse: collapse; }
+.ordersTable th, .ordersTable td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+.statusBadge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 1rem; font-size: 0.7rem; }
+.statusBadge.delivered { background: #d1fae5; color: #065f46; }
+.statusBadge.pending { background: #fef3c7; color: #92400e; }
+.statusBadge.cancelled { background: #fee2e2; color: #dc2626; }
 
-.orderStatus {
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: capitalize;
-}
+.quickActions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.actionBtn { background: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; }
 
-.orderStatus.pending { background: #fef3c7; color: #92400e; }
-.orderStatus.confirmed { background: #dbeafe; color: #1e40af; }
-.orderStatus.preparing { background: #e0e7ff; color: #3730a3; }
-.orderStatus.ready_for_pickup { background: #d1fae5; color: #065f46; }
-.orderStatus.delivered { background: #d1fae5; color: #065f46; }
+.empty { text-align: center; color: var(--gray); padding: 1rem; }
+.loader { text-align: center; padding: 3rem; }
 
-.orderDetails p {
-  margin: 0.25rem 0;
-  font-size: 0.875rem;
-}
-
-.orderActions {
-  margin-top: 0.75rem;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.confirmButton, .prepareButton, .readyButton {
-  padding: 0.375rem 1rem;
+.createBtn {
+  background: var(--primary);
+  color: white;
   border: none;
-  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-left: 0.5rem;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.875rem;
+}
+.createBtn:hover {
+  background: var(--primary-dark);
 }
 
-.confirmButton { background: #3b82f6; color: white; }
-.prepareButton { background: #f59e0b; color: white; }
-.readyButton { background: #10b981; color: white; }
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal input, .modal textarea, .modal select {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Settings and Reports */
+.settingsCard {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+}
+.settingsCard h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.settingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.settingRow svg {
+  font-size: 1.25rem;
+  color: var(--primary);
+}
+.settingRow div {
+  flex: 1;
+  margin-left: 1rem;
+}
+.settingRow label {
+  font-weight: 600;
+  display: block;
+}
+.settingRow p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--gray);
+}
+.changeBtn, .actionBtn, .downloadBtn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.reportRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.reportRow span {
+  flex: 1;
+  margin-left: 0.5rem;
+}
+
+/* Toggle switch (for settings) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: var(--primary);
+}
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Refresh & Auto‑refresh */
+.refreshBtn {
+  background: var(--primary-light);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+.autoRefreshLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--gray);
+  margin-right: 1rem;
+}
+
+/* Settings, System, Reports */
+.settingsCard {
+  background: var(--white);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+}
+.settingsCard h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.settingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.settingRow svg {
+  font-size: 1.25rem;
+  color: var(--primary);
+}
+.settingRow div {
+  flex: 1;
+  margin-left: 1rem;
+}
+.settingRow label {
+  font-weight: 600;
+  display: block;
+}
+.settingRow p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--gray);
+}
+.changeBtn, .actionBtn, .downloadBtn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.reportRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.reportRow span {
+  flex: 1;
+  margin-left: 0.5rem;
+}
+
+/* Toggle switch (for settings) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: var(--primary);
+}
+input:checked + .slider:before {
+  transform: translateX(20px);
+}

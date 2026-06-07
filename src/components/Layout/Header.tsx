@@ -64,9 +64,9 @@ export default function Header() {
             ☰
           </button>
 
-          <div className={`${styles.navLinks} ${menuOpen ? styles.open : ""}`}>
-           
-          </div>
+          <div
+            className={`${styles.navLinks} ${menuOpen ? styles.open : ""}`}
+          ></div>
 
           <button
             onClick={openWhatsApp}
@@ -108,29 +108,14 @@ export default function Header() {
                   <Link to="/orders" onClick={() => setIsDropdownOpen(false)}>
                     Orders
                   </Link>
-                  {user.role === "owner" && (
-                    <Link
-                      to="/owner-dashboard"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      Owner Dashboard
-                    </Link>
+                  {user && user.role === "admin" && (
+                    <Link to="/admin-dashboard">Admin Dashboard</Link>
                   )}
-                  {user.role === "admin" && (
-                    <Link
-                      to="/admin-dashboard"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      Admin Dashboard
-                    </Link>
+                  {user && user.role === "owner" && (
+                    <Link to="/owner-dashboard">Owner Dashboard</Link>
                   )}
-                  {user.role === "driver" && (
-                    <Link
-                      to="/driver-dashboard"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      Driver Dashboard
-                    </Link>
+                  {user && user.role === "driver" && (
+                    <Link to="/driver-dashboard">Driver Dashboard</Link>
                   )}
                   {user.role === "customer" && (
                     <Link

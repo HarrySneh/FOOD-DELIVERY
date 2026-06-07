@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import Home from "./pages/Home";
 import Restaurants from "./pages/Restaurants";
-import Groceries from "./pages/Groceries";
+import Groceries from "./pages/GroceryDashboard";
 import RestaurantDetail from "./pages/RestaurantDetail";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -24,6 +24,7 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./hooks/useAuth";
 import Loader from "./components/Loader";
+import GroceryDashboard from "./pages/Dashboard/OwnerDashboard";
 
 function App() {
   const { user, loading } = useAuth();
@@ -31,7 +32,7 @@ function App() {
   if (loading) return <Loader />;
 
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -84,6 +85,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <DriverRegister />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/grocery-dashboard"
+            element={
+              <ProtectedRoute role="owner">
+                <GroceryDashboard />
               </ProtectedRoute>
             }
           />

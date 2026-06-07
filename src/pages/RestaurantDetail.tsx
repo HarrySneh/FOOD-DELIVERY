@@ -1,81 +1,79 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { restaurantsApi } from "../api/restaurants";
 import { useCart } from "../hooks/useCart";
 import {
   FaStar,
   FaClock,
   FaMapMarkerAlt,
-  FaChevronLeft,
-  FaShoppingCart,
+  FaCheckCircle,
+  FaTag,
+  FaPlus,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
-import Loader from "../components/Loader";
-import { RESTAURANT_IMAGES } from "../constants/imageConstants";
 import styles from "./RestaurantDetail.module.css";
+
+interface Restaurant {
+  _id: string;
+  name: string;
+  description: string;
+  image: string;
+  coverImage: string;
+  cuisine: string[];
+  address: string;
+  city: string;
+  deliveryTime: number;
+  deliveryFee: number;
+  rating: number;
+  reviewsCount: number;
+  isOpen: boolean;
+  closingTime: string;
+  phone: string;
+  email: string;
+}
+
+interface MenuItem {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  image: string;
+}
 
 export default function RestaurantDetail() {
   const { id } = useParams();
-  const [restaurant, setRestaurant] = useState<any>(null);
-  const [menu, setMenu] = useState<any[]>([]);
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+  const [menu, setMenu] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<"menu" | "reviews" | "info">(
+    "menu",
+  );
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [search, setSearch] = useState("");
   const { addToCart } = useCart();
 
   useEffect(() => {
-    // For demo, we set a mock restaurant matching one of our constants
-    const mockRestaurants = [
-      {
-        _id: "1",
-        name: "Tuo Zaafi Palace",
-        description: "Authentic Northern Ghanaian cuisine",
-        image: RESTAURANT_IMAGES.tuoZaafiPalace,
-        rating: 4.9,
-        deliveryTime: 25,
-        deliveryFee: 8,
-        address: "Tamale Central, Tamale",
-        cuisine: ["Northern Ghanaian"],
-      },
-      {
-        _id: "2",
-        name: "Tamale Chop Bar",
-        image: RESTAURANT_IMAGES.tamaleChopBar,
-        description: "Traditional Northern dishes",
-        rating: 4.7,
-        deliveryTime: 20,
-        deliveryFee: 6,
-        address: "Tamale South",
-        cuisine: ["Local Ghanaian"],
-      },
-    ];
-    const found =
-      mockRestaurants.find((r) => r._id === id) || mockRestaurants[0];
-    setRestaurant(found);
-    setMenu([
-      {
-        _id: "m1",
-        name: "Tuo Zaafi",
-        description: "Millet dumpling with ayoyo soup",
-        price: 25,
-        category: "Main",
-      },
-      {
-        _id: "m2",
-        name: "Wasawasa",
-        description: "Yam flour dumplings",
-        price: 20,
-        category: "Main",
-      },
-      {
-        _id: "m3",
-        name: "Kinkheba",
-        description: "Spicy grilled meat",
-        price: 30,
-        category: "Main",
-      },
-    ]);
-    setLoading(false);
+    const fetchData = async () => {
+      try {
+        const [restRes, menuRes] = await Promise.all([
+          restaurantsApi.getById(id!),
+          restaurantsApi.getMenu(id!),
+        ]);
+        setRestaurant(restRes.data);
+        setMenu(menuRes.data);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to load restaurant details");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, [id]);
 
-  const handleAddToCart = (item: any) => {
+  const handleAddToCart = (item: MenuItem) => {
+    if (!restaurant) return;
     addToCart({
       _id: item._id,
       name: item.name,
@@ -83,67 +81,161 @@ export default function RestaurantDetail() {
       quantity: 1,
       restaurantId: restaurant._id,
       restaurantName: restaurant.name,
-      description: item.description,
-      category: item.category,
-      image: "",
     });
     toast.success(`Added ${item.name} to cart`);
   };
 
-  if (loading) return <Loader />;
-  if (!restaurant) return <div>Restaurant not found</div>;
+  const categories = ["all", ...new Set(menu.map((item) => item.category))];
+  const filteredMenu = menu
+    .filter(
+      (item) =>
+        selectedCategory === "all" || item.category === selectedCategory,
+    )
+    .filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
+
+  if (loading)
+    return <div className={styles.loader}>Loading restaurant...</div>;
+  if (!restaurant)
+    return <div className={styles.error}>Restaurant not found</div>;
 
   return (
     <div className={styles.container}>
-      <Link to="/restaurants" className={styles.backLink}>
-        <FaChevronLeft /> Back to Restaurants
-      </Link>
-      <div className={styles.banner}>
+      {/* Hero Banner */}
+      <div className={styles.hero}>
         <img
-          src={restaurant.image}
+          src={
+            restaurant.coverImage || restaurant.image || "/placeholder-hero.jpg"
+          }
           alt={restaurant.name}
-          className={styles.bannerImage}
         />
-        <div className={styles.bannerOverlay}>
+      </div>
+
+      {/* Header */}
+      <div className={styles.header}>
+        <div className={styles.headerLeft}>
           <h1>{restaurant.name}</h1>
-          <div className={styles.restaurantInfo}>
+          <div className={styles.verified}>
+            <FaCheckCircle /> Verified
+          </div>
+          <div className={styles.rating}>
+            <FaStar /> {restaurant.rating} ({restaurant.reviewsCount || 256}{" "}
+            reviews) · {restaurant.cuisine?.join(" · ")}
+          </div>
+          <div className={styles.details}>
             <span>
-              <FaStar className={styles.star} /> {restaurant.rating}
-            </span>
-            <span>
-              <FaClock /> {restaurant.deliveryTime} mins
+              <FaClock /> {restaurant.deliveryTime}–
+              {restaurant.deliveryTime + 10} min
             </span>
             <span>
               <FaMapMarkerAlt /> GHS {restaurant.deliveryFee} delivery
             </span>
+            <span>
+              {restaurant.address}, {restaurant.city}
+            </span>
+          </div>
+          <div className={styles.status}>
+            <span className={restaurant.isOpen ? styles.open : styles.closed}>
+              {restaurant.isOpen ? "Open now" : "Closed"} · Closes at{" "}
+              {restaurant.closingTime}
+            </span>
           </div>
         </div>
+        <div className={styles.promoBanner}>
+          <FaTag /> Get 10% off on orders over GHS 100{" "}
+          <strong>Use code: TAMAEAT10</strong>
+        </div>
       </div>
-      <div className={styles.description}>
-        <h2>About Us</h2>
-        <p>{restaurant.description}</p>
-        <p className={styles.address}>{restaurant.address}</p>
+
+      {/* Tabs */}
+      <div className={styles.tabs}>
+        <button
+          className={`${styles.tab} ${activeTab === "menu" ? styles.active : ""}`}
+          onClick={() => setActiveTab("menu")}
+        >
+          Menu
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === "reviews" ? styles.active : ""}`}
+          onClick={() => setActiveTab("reviews")}
+        >
+          Reviews ({restaurant.reviewsCount || 256})
+        </button>
+        <button
+          className={`${styles.tab} ${activeTab === "info" ? styles.active : ""}`}
+          onClick={() => setActiveTab("info")}
+        >
+          Info
+        </button>
       </div>
-      <h2 className={styles.menuTitle}>Our Menu</h2>
-      <div className={styles.menuList}>
-        {menu.map((item) => (
-          <div key={item._id} className={styles.menuItem}>
-            <div className={styles.menuItemInfo}>
-              <h3>{item.name}</h3>
-              <p className={styles.menuItemDescription}>{item.description}</p>
-              <p className={styles.menuItemPrice}>
-                GHS {item.price.toFixed(2)}
-              </p>
-            </div>
-            <button
-              onClick={() => handleAddToCart(item)}
-              className={styles.addButton}
-            >
-              <FaShoppingCart /> Add
-            </button>
+
+      {/* Search & Filter */}
+      {activeTab === "menu" && (
+        <>
+          <div className={styles.searchBar}>
+            <input
+              type="text"
+              placeholder="Search for dishes..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
-        ))}
-      </div>
+          <div className={styles.categoryFilter}>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                className={`${styles.categoryBtn} ${selectedCategory === cat ? styles.activeCategory : ""}`}
+                onClick={() => setSelectedCategory(cat)}
+              >
+                {cat === "all" ? "All" : cat}
+              </button>
+            ))}
+          </div>
+          <div className={styles.menuGrid}>
+            {filteredMenu.map((item) => (
+              <div key={item._id} className={styles.menuCard}>
+                <div className={styles.menuImage}>
+                  <img
+                    src={item.image || "/placeholder-food.jpg"}
+                    alt={item.name}
+                  />
+                </div>
+                <div className={styles.menuContent}>
+                  <h3>{item.name}</h3>
+                  <p>{item.description}</p>
+                  <div className={styles.menuFooter}>
+                    <span className={styles.price}>
+                      GHS {item.price.toFixed(2)}
+                    </span>
+                    <button
+                      onClick={() => handleAddToCart(item)}
+                      className={styles.addButton}
+                    >
+                      <FaPlus /> Add to Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {activeTab === "reviews" && (
+        <div className={styles.reviews}>Customer reviews will appear here.</div>
+      )}
+      {activeTab === "info" && (
+        <div className={styles.info}>
+          <h3>About {restaurant.name}</h3>
+          <p>{restaurant.description}</p>
+          <h3>Contact</h3>
+          <p>Phone: {restaurant.phone || "N/A"}</p>
+          <p>Email: {restaurant.email || "N/A"}</p>
+          <h3>Address</h3>
+          <p>
+            {restaurant.address}, {restaurant.city}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
